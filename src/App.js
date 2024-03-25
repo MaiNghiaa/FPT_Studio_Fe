@@ -3,11 +3,11 @@ import "./App.css";
 import Footer from "./Layouts/Footer";
 import Header from "./Layouts/Header";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import LandingPage from "./Pages/LandingPage/LandingPage";
 function App() {
   return (
     <div className="App">
-      <Header />
-      <Footer />
+      <LandingPage />
     </div>
   );
 }
