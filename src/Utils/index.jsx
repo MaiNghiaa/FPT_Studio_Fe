@@ -1,9 +1,3 @@
-import React, { Component } from 'react'
+import logo from "../../public/assets/logo/logo-fstu-aar.webp";
 
-export default class index extends Component {
-  render() {
-    return (
-      <div>index</div>
-    )
-  }
-}
+export const image_logo = logo;
