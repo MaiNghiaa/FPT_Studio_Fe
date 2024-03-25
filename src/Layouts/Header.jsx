@@ -1,7 +1,7 @@
 import React from "react";
 // import Image from "../../assets/Store/637961834239224907_fs1.jpg";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse } from '@awesome.me/kit-KIT_CODE/icons/classic/solid'
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { faHouse } from '@awesome.me/kit-KIT_CODE/icons/classic/solid'
 
 export default function Header() {
   return (
@@ -22,7 +22,6 @@ export default function Header() {
               <form action>
                 <div className="flex  border-none px-[16px] min-h-[28px] text-[#939ca3] w-[476px]">
                   <span>
-                  <FontAwesomeIcon icon={fak.faMyIcon} />
                                     </span>
                   <input
                     type="text"
@@ -34,8 +33,11 @@ export default function Header() {
                 </div>
               </form>
             </div>
-            <div className="header-cart flex-1 text-white">asdasdasd</div>
-            <p></p>
+            <div className="header-cart flex-1  inline-flex items-center text-[#e1e4e6] py-[10px] pl-[24px] ">
+              <img src={require("./item.png")} alt="" className="w-[32px] h-32px"/>
+              <p className="text-[14px] leading-5 ml-2">Giỏ hàng của bạn</p>
+            </div>
+            
         </div>
         
       </div>
