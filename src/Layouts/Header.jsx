@@ -2,7 +2,7 @@ import React from "react";
 // import Image from "../../assets/Store/637961834239224907_fs1.jpg";
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faHouse } from '@awesome.me/kit-KIT_CODE/icons/classic/solid'
-
+import {img_logo} from "../Utils"
 export default function Header() {
   return (
     <div className="Header">
@@ -12,7 +12,7 @@ export default function Header() {
             <div className="header-logo max-w-[276px] flex-auto">
               <a href="\">
                 <img
-                  src="https://fstudiobyfpt.com.vn/ContentV2/assets/img/logo-fstu-aar.png"
+                  src={require('/assets/logo/logoFST.png')}
                   alt=""
                   className=""
                 />
