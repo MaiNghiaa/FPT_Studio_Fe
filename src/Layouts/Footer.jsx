@@ -13,11 +13,11 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
 export default function Footer() {
   return (
-    <div className='footer mt-[12px] text-white'>
-        <section className='footer__gallery bg-[#f8f9fa] pb-[38px]'>
+    <div className='footer text-white'>
+        <section className='footer__gallery bg-[#212529] text-white pb-[38px]'>
             <div className='footer__gallery-inner'>
                 <div className='section__gallery-title mb-[24px]'>
-                    <p className='font-[500] text-[24px] leading-[32px] text-[#32373d] text-center'>Hình ảnh hệ thống F.Studio</p>
+                    <p className='font-[500] text-[24px] leading-[32px] text-[#f8f9fa] text-center'>Hình ảnh hệ thống F.Studio</p>
                 </div>
                 <div className="footer__gallery-main">
                 <Swiper
@@ -36,7 +36,7 @@ export default function Footer() {
       <SwiperSlide><img src='/assets/images/Store/Gallery3.jpg' alt="" /></SwiperSlide>
       <SwiperSlide><img src='/assets/images/Store/Gallery4.jpg' alt="" /></SwiperSlide>
       <SwiperSlide><img src='/assets/images/Store/Gallery5.jpg' alt="" /></SwiperSlide>
-      ...
+      
     </Swiper>
                 </div>
             </div>
