@@ -2,6 +2,7 @@ import React from "react";
 import Banner from "./Sections/Banner";
 import Cate from "./Sections/Cate";
 import News from "./Sections/News";
+import FooterGallery from "../../Layouts/Sections/Footer/FooterGallery";
 
 export default function LandingPage() {
   return (
@@ -18,6 +19,9 @@ export default function LandingPage() {
         <div className="News_container w-[100%] max-w-[1200px] px-[12px] mx-auto">
           <News />
         </div>
+      </section>
+      <section className="footer__gallery bg-[#212529] text-white pb-[38px]">
+        <FooterGallery />
       </section>
     </div>
   );

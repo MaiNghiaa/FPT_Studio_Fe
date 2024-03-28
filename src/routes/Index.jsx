@@ -1,10 +1,16 @@
 import { lazy, memo, useEffect, Suspense } from "react";
 import { useRoutes, useLocation } from "react-router-dom";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { PATH_HOME, PATH_PRODUCT, PATH_PRODUCT_DETAIL } from "./path";
+import {
+  PATH_HOME,
+  PATH_NEWS,
+  PATH_PRODUCT,
+  PATH_PRODUCT_DETAIL,
+} from "./path";
 import LandingPage from "../Pages/LandingPage/LandingPage";
-import ListProduct from "../Pages/ListProduct/ListProduct";
-
+import ListProduct from "../Pages/ListProduct/ListItem";
+import ProductDetail from "../Pages/ListProduct/ProductDetail";
+import News from "../Pages/LandingPage/Sections/News";
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
 
@@ -32,8 +38,9 @@ function Router() {
       ),
       children: [
         { path: PATH_HOME, element: <LandingPage /> },
-        { path: `${PATH_PRODUCT}/:Product`, element: <ListProduct /> },
-        { path: PATH_PRODUCT_DETAIL, element: <ListProduct /> },
+        { path: `${PATH_PRODUCT}`, element: <ListProduct /> },
+        { path: PATH_PRODUCT_DETAIL, element: <ProductDetail /> },
+        { path: PATH_NEWS, element: <News /> },
       ],
     },
   ];

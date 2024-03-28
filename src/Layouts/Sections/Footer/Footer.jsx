@@ -21,47 +21,11 @@ import {
   iconcrown,
   iconshield,
   iconlike,
-} from "../../Utils";
+} from "../../../Utils";
 
 export default function Footer() {
   return (
     <div className="footer text-white">
-      <section className="footer__gallery bg-[#212529] text-white pb-[38px]">
-        <div className="footer__gallery-inner">
-          <div className="section__gallery-title mb-[24px]">
-            <p className="font-[500] text-[24px] leading-[32px] text-[#f8f9fa] text-center">
-              Hình ảnh hệ thống F.Studio
-            </p>
-          </div>
-          <div className="footer__gallery-main">
-            <Swiper
-              modules={[Navigation, Pagination, Scrollbar, A11y]}
-              spaceBetween={40}
-              slidesPerView={3}
-              navigation
-              EffectFlip
-              onSlideChange={() => console.log("slide change")}
-              onSwiper={(swiper) => console.log(swiper)}
-            >
-              <SwiperSlide>
-                <img src={Gallery1} alt="" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={Gallery2} alt="" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={Gallery3} alt="" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={Gallery4} alt="" />
-              </SwiperSlide>
-              <SwiperSlide>
-                <img src={Gallery5} alt="" />
-              </SwiperSlide>
-            </Swiper>
-          </div>
-        </div>
-      </section>
       <div className="footer-top bg-[#444b52] py-[22px]">
         <div className="footer__container w-[100%] px-[12px] mx-auto max-w-[1200px]">
           <ul className="flex justify-center gap-12">

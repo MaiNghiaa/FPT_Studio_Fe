@@ -1,0 +1,7 @@
+.breadcrumb-item2:before {
+  display: inline-block;
+  margin: 0 16px;
+  color: #cbd1d6;
+  font-size: 15px;
+  content: "/";
+}
