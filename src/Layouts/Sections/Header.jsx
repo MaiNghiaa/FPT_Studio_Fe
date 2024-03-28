@@ -58,16 +58,16 @@ export default function Header() {
               <a href="\">Phụ kiện</a>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <a href="\">Tin tức</a>
+              <a href="/tin-tuc">Tin tức</a>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <a href="\">Workshop</a>
+            <Link to="/today" className="w-full">Workshop</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px] text-[#f6c743] font-medium">
-              <a href="\">Khuyến mãi</a>
+              <a href="/">Khuyến mãi</a>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <a href="\">F.Care</a>
+              <a href="/fcare">F.Care</a>
             </li>
           </ul>
 
