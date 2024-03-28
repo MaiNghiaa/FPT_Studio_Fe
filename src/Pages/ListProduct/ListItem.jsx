@@ -150,7 +150,7 @@ export default function ListItem() {
 
             <div className="tab-pane">
               <div className="product-list flex bg-[#fff] flex-wrap relative">
-                <div className="product-item h-[534px] bg-[#fff] rounded-none pt-[24px] pb-[32px] px-[12px] flex flex-col basis-[calc(100%/3)] border-[1px] border-[#edeeef] border-t-0 border-b-0">
+                <div className="product-item h-[534px] bg-[#fff] rounded-none pt-[24px] pb-[32px] px-[12px] flex flex-col basis-[calc(100%/3)] border-[1px] border-[#edeeef] border-t-0 border-l-0">
                   <div className="product-item-img h-[240px] px-[30px] mb-[16px] relative text-center ">
                     <a href="" className="block w-full">
                       <img
@@ -160,15 +160,146 @@ export default function ListItem() {
                       />
                     </a>
                   </div>
-                  <div className="product-item-info flex flex-col gap-[8px]">
-                    display: flex; justify-content: center; gap: 12px;
-                    margin-bottom: 16px;
+                  <div className="product-item-info flex flex-col items-center gap-[8px]">
+                   
                     <div className="product-color flex"></div>
-                    <a href="">
-                      <h3></h3>
+                    <a href="/">
+                      <h3 className="product_name text-[20px] leading-[28px] font-medium text-center overflow-hidden text-[#32373d] ">Iphone 15 Pro Max</h3>
                     </a>
-                    <div className="product-memory"></div>
-                    <div className="product-price"></div>
+                    <div className="product-memory w-[276px] m-[0_auto] flex rounded bg-[#edeeef] ">256gb</div>
+                    <div className="product-price flex gap-2 items-end justify-center m-0">
+                      <div className="text text-[16px] font-normal leading-[24px] text-[#444b52]">Giá chỉ</div>
+                      <div className="price text-[20px] leading-7 font-medium text-[#cb1c22]">30.690.000đ</div>
+                      <strike className="oldPrice text-[#939ca3] text-[16px] leading-6 font-normal">34.990.000đ</strike>
+                    </div>
+                  </div>
+                  <div className="product-item-detail flex flex-[1] mt-4 justify-center items-start ">
+                    <a
+                      href="\"
+                      className="w-[176px] text-[#6a737a] border border-[#cbd1d6] bg-[#ffffff] h-[32px] px-[12px] text-[16px] leading-4 inline-flex items-center justify-center flex-col select-none transition-[all_.3s_cubic-bezier(0,0,.4,1)] pointer"
+                    >
+                      XEM CHI TIẾT
+                    </a>
+                  </div>
+                </div>
+                <div className="product-item h-[534px] bg-[#fff] rounded-none pt-[24px] pb-[32px] px-[12px] flex flex-col basis-[calc(100%/3)] border-[1px] border-[#edeeef] border-t-0 border-l-0">
+                  <div className="product-item-img h-[240px] px-[30px] mb-[16px] relative text-center ">
+                    <a href="" className="block w-full">
+                      <img
+                        className=" w-[307px] h-[240px] object-contain transition-[all_.3s_ease]"
+                        src={require("../../assets/images/List/Items/Iphone/Ip15pr_Ip15prm.webp")}
+                        alt=""
+                      />
+                    </a>
+                  </div>
+                  <div className="product-item-info flex flex-col items-center gap-[8px]">
+                   
+                    <div className="product-color flex"></div>
+                    <a href="/">
+                      <h3 className="product_name text-[20px] leading-[28px] font-medium text-center overflow-hidden text-[#32373d] ">Iphone 15 Pro Max</h3>
+                    </a>
+                    <div className="product-memory w-[276px] m-[0_auto] flex rounded bg-[#edeeef] ">256gb</div>
+                    <div className="product-price flex gap-2 items-end justify-center m-0">
+                      <div className="text text-[16px] font-normal leading-[24px] text-[#444b52]">Giá chỉ</div>
+                      <div className="price text-[20px] leading-7 font-medium text-[#cb1c22]">30.690.000đ</div>
+                      <strike className="oldPrice text-[#939ca3] text-[16px] leading-6 font-normal">34.990.000đ</strike>
+                    </div>
+                  </div>
+                  <div className="product-item-detail flex flex-[1] mt-4 justify-center items-start ">
+                    <a
+                      href="\"
+                      className="w-[176px] text-[#6a737a] border border-[#cbd1d6] bg-[#ffffff] h-[32px] px-[12px] text-[16px] leading-4 inline-flex items-center justify-center flex-col select-none transition-[all_.3s_cubic-bezier(0,0,.4,1)] pointer"
+                    >
+                      XEM CHI TIẾT
+                    </a>
+                  </div>
+                </div>
+                <div className="product-item h-[534px] bg-[#fff] rounded-none pt-[24px] pb-[32px] px-[12px] flex flex-col basis-[calc(100%/3)] border-[1px] border-[#edeeef] border-t-0 border-l-0">
+                  <div className="product-item-img h-[240px] px-[30px] mb-[16px] relative text-center ">
+                    <a href="" className="block w-full">
+                      <img
+                        className=" w-[307px] h-[240px] object-contain transition-[all_.3s_ease]"
+                        src={require("../../assets/images/List/Items/Iphone/Ip15pr_Ip15prm.webp")}
+                        alt=""
+                      />
+                    </a>
+                  </div>
+                  <div className="product-item-info flex flex-col items-center gap-[8px]">
+                   
+                    <div className="product-color flex"></div>
+                    <a href="/">
+                      <h3 className="product_name text-[20px] leading-[28px] font-medium text-center overflow-hidden text-[#32373d] ">Iphone 15 Pro Max</h3>
+                    </a>
+                    <div className="product-memory w-[276px] m-[0_auto] flex rounded bg-[#edeeef] ">256gb</div>
+                    <div className="product-price flex gap-2 items-end justify-center m-0">
+                      <div className="text text-[16px] font-normal leading-[24px] text-[#444b52]">Giá chỉ</div>
+                      <div className="price text-[20px] leading-7 font-medium text-[#cb1c22]">30.690.000đ</div>
+                      <strike className="oldPrice text-[#939ca3] text-[16px] leading-6 font-normal">34.990.000đ</strike>
+                    </div>
+                  </div>
+                  <div className="product-item-detail flex flex-[1] mt-4 justify-center items-start ">
+                    <a
+                      href="\"
+                      className="w-[176px] text-[#6a737a] border border-[#cbd1d6] bg-[#ffffff] h-[32px] px-[12px] text-[16px] leading-4 inline-flex items-center justify-center flex-col select-none transition-[all_.3s_cubic-bezier(0,0,.4,1)] pointer"
+                    >
+                      XEM CHI TIẾT
+                    </a>
+                  </div>
+                </div>
+                <div className="product-item h-[534px] bg-[#fff] rounded-none pt-[24px] pb-[32px] px-[12px] flex flex-col basis-[calc(100%/3)] border-[1px] border-[#edeeef] border-t-0 border-l-0">
+                  <div className="product-item-img h-[240px] px-[30px] mb-[16px] relative text-center ">
+                    <a href="" className="block w-full">
+                      <img
+                        className=" w-[307px] h-[240px] object-contain transition-[all_.3s_ease]"
+                        src={require("../../assets/images/List/Items/Iphone/Ip15pr_Ip15prm.webp")}
+                        alt=""
+                      />
+                    </a>
+                  </div>
+                  <div className="product-item-info flex flex-col items-center gap-[8px]">
+                   
+                    <div className="product-color flex"></div>
+                    <a href="/">
+                      <h3 className="product_name text-[20px] leading-[28px] font-medium text-center overflow-hidden text-[#32373d] ">Iphone 15 Pro Max</h3>
+                    </a>
+                    <div className="product-memory w-[276px] m-[0_auto] flex rounded bg-[#edeeef] ">256gb</div>
+                    <div className="product-price flex gap-2 items-end justify-center m-0">
+                      <div className="text text-[16px] font-normal leading-[24px] text-[#444b52]">Giá chỉ</div>
+                      <div className="price text-[20px] leading-7 font-medium text-[#cb1c22]">30.690.000đ</div>
+                      <strike className="oldPrice text-[#939ca3] text-[16px] leading-6 font-normal">34.990.000đ</strike>
+                    </div>
+                  </div>
+                  <div className="product-item-detail flex flex-[1] mt-4 justify-center items-start ">
+                    <a
+                      href="\"
+                      className="w-[176px] text-[#6a737a] border border-[#cbd1d6] bg-[#ffffff] h-[32px] px-[12px] text-[16px] leading-4 inline-flex items-center justify-center flex-col select-none transition-[all_.3s_cubic-bezier(0,0,.4,1)] pointer"
+                    >
+                      XEM CHI TIẾT
+                    </a>
+                  </div>
+                </div>
+                <div className="product-item h-[534px] bg-[#fff] rounded-none pt-[24px] pb-[32px] px-[12px] flex flex-col basis-[calc(100%/3)] border-[1px] border-[#edeeef] border-t-0 border-l-0">
+                  <div className="product-item-img h-[240px] px-[30px] mb-[16px] relative text-center ">
+                    <a href="" className="block w-full">
+                      <img
+                        className=" w-[307px] h-[240px] object-contain transition-[all_.3s_ease]"
+                        src={require("../../assets/images/List/Items/Iphone/Ip15pr_Ip15prm.webp")}
+                        alt=""
+                      />
+                    </a>
+                  </div>
+                  <div className="product-item-info flex flex-col items-center gap-[8px]">
+                   
+                    <div className="product-color flex"></div>
+                    <a href="/">
+                      <h3 className="product_name text-[20px] leading-[28px] font-medium text-center overflow-hidden text-[#32373d] ">Iphone 15 Pro Max</h3>
+                    </a>
+                    <div className="product-memory w-[276px] m-[0_auto] flex rounded bg-[#edeeef] ">256gb</div>
+                    <div className="product-price flex gap-2 items-end justify-center m-0">
+                      <div className="text text-[16px] font-normal leading-[24px] text-[#444b52]">Giá chỉ</div>
+                      <div className="price text-[20px] leading-7 font-medium text-[#cb1c22]">30.690.000đ</div>
+                      <strike className="oldPrice text-[#939ca3] text-[16px] leading-6 font-normal">34.990.000đ</strike>
+                    </div>
                   </div>
                   <div className="product-item-detail flex flex-[1] mt-4 justify-center items-start ">
                     <a
