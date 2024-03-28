@@ -43,16 +43,16 @@ export default function Header() {
         <div className="wrapper w-[100%] max-w-[1200px] px-[12px] mx-[auto] flex items-center">
           <ul className="flex">
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/iphone">Iphone</Link>
+              <Link to="/iphone" className="w-full">Iphone</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/Ipad">Ipad</Link>
+              <Link to="/Ipad" className="w-full">Ipad</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/Mac">Mac</Link>
+              <Link to="/Mac" className="w-full">Mac</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/Apple_Watch">Apple Watch</Link>
+              <Link to="/Apple_Watch" className="w-full">Apple Watch</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
               <a href="\">Phụ kiện</a>
