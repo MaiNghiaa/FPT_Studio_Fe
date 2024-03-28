@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import "./App.css";
-import Route from "./routes/Index";
+import Route from "./routes/index";
 
 import React from "react";
 
