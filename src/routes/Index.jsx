@@ -7,14 +7,15 @@ import {
   PATH_PRODUCT,
   PATH_PRODUCT_DETAIL,
   PATH_FCARE,
-  PATH_EVENTS
+  PATH_EVENTS,
 } from "./path";
 import LandingPage from "../Pages/LandingPage/LandingPage";
 import ListProduct from "../Pages/ListProduct/ListItem";
 import ProductDetail from "../Pages/ListProduct/ProductDetail";
-import News from "../Pages/LandingPage/Sections/News";
+
 import Events from "../Pages/Events/Events";
 import Fcare from "../Pages/Fcare/Fcare";
+import Tintuc from "../Pages/Tintuc/Tintuc";
 
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
@@ -45,7 +46,7 @@ function Router() {
         { path: PATH_HOME, element: <LandingPage /> },
         { path: `${PATH_PRODUCT}`, element: <ListProduct /> },
         { path: PATH_PRODUCT_DETAIL, element: <ProductDetail /> },
-        { path: PATH_NEWS, element: <News /> },
+        { path: PATH_NEWS, element: <Tintuc /> },
         { path: PATH_EVENTS, element: <Events /> },
         { path: PATH_FCARE, element: <Fcare /> },
       ],
