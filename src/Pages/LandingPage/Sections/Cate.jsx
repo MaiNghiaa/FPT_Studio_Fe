@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
 import "../Sections/Cate.css";
 import {
   Titleitemgs1,
@@ -11,44 +13,44 @@ export default function Cate() {
   return (
     <div className="List-cate flex gap-6 items-baseline">
       <div className="Cate__item pt-[24px] pb-[32px] bg-[#32373d] shadow-[0_0_16px_rgba(0,0,0,.7)] rounded-[6px]">
-        <a href="\" className="flex items-center flex-col">
+      <Link to="/iphone" className="flex flex-col items-center">
           <p className="Cate__item-title text-[20px] leading-7 font-medium mb-[16px]">
             iPhone
           </p>
           <img className="cateimg" src={Titleitemgs1} alt="iPhone" />
-        </a>
+          </Link>
       </div>
       <div className="Cate__item pt-[24px] pb-[32px] bg-[#32373d] shadow-[0_0_16px_rgba(0,0,0,.7)] rounded-[6px]">
-        <a href="\" className="flex items-center flex-col">
+      <Link to="/Ipad" className="flex flex-col items-center">
           <p className="Cate__item-title text-[20px] leading-7 font-medium mb-[16px]">
             iPad
           </p>
           <img className="cateimg" src={Titleitemgs2} alt="iPad" />
-        </a>
+          </Link>
       </div>
       <div className="Cate__item pt-[24px] pb-[32px] bg-[#32373d] shadow-[0_0_16px_rgba(0,0,0,.7)] rounded-[6px]">
-        <a href="\" className="flex items-center flex-col">
+      <Link to="/Mac" className="flex flex-col items-center">
           <p className="Cate__item-title text-[20px] leading-7 font-medium mb-[16px]">
             Mac
           </p>
           <img className="cateimg" src={Titleitemgs3} alt="Mac" />
-        </a>
+          </Link>
       </div>
       <div className="Cate__item pt-[24px] pb-[32px] bg-[#32373d] shadow-[0_0_16px_rgba(0,0,0,.7)] rounded-[6px]">
-        <a href="\" className="flex items-center flex-col">
+      <Link to="/Apple_Watch" className="flex flex-col items-center">
           <p className="Cate__item-title text-[20px] leading-7 font-medium mb-[16px]">
             Apple Watch
           </p>
           <img className="cateimg" src={Titleitemgs4} alt="Apple Watch" />
-        </a>
+          </Link>
       </div>
       <div className="Cate__item pt-[24px] pb-[32px] bg-[#32373d] shadow-[0_0_16px_rgba(0,0,0,.7)] rounded-[6px]">
-        <a href="\" className="flex items-center flex-col">
+      <Link to="/" className="flex flex-col items-center">
           <p className="Cate__item-title text-[20px] leading-7 font-medium mb-[16px]">
             Phụ kiện
           </p>
           <img className="cateimg" src={Titleitemgs5} alt="Phụ kiện" />
-        </a>
+          </Link>
       </div>
     </div>
   );

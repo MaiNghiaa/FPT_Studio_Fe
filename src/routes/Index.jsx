@@ -8,6 +8,7 @@ import {
   PATH_PRODUCT_DETAIL,
   PATH_FCARE,
   PATH_EVENTS,
+  PATH_KHUYENMAI
 } from "./path";
 import LandingPage from "../Pages/LandingPage/LandingPage";
 import ListProduct from "../Pages/ListProduct/ListItem";
@@ -16,6 +17,7 @@ import ProductDetail from "../Pages/ListProduct/ProductDetail";
 import Events from "../Pages/Events/Events";
 import Fcare from "../Pages/Fcare/Fcare";
 import Tintuc from "../Pages/Tintuc/Tintuc";
+import KhuyenMai from "../Pages/Khuyenmai/KhuyenMai";
 
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
@@ -49,6 +51,7 @@ function Router() {
         { path: PATH_NEWS, element: <Tintuc /> },
         { path: PATH_EVENTS, element: <Events /> },
         { path: PATH_FCARE, element: <Fcare /> },
+        { path: PATH_KHUYENMAI, element: <KhuyenMai /> },
       ],
     },
   ];

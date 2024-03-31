@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
-    <div className="Header">
+    <div className="Header small:max-w-[640px] small:w-full small:m-auto small:relative">
       <div className="Header_top bg-black py-5">
         <div className="flex items-center justify-center w-full max-w-[1200px] px-[12px] mx-auto ">
           <div className="header-logo max-w-[276px] flex-auto">
@@ -30,48 +30,47 @@ export default function Header() {
             </form>
           </div>
           <div className="header-cart flex-1  inline-flex items-center text-[#e1e4e6] py-[10px] pl-[24px] ">
-            <img
-              src={require("../../assets/images/icons/item.png")}
-              alt=""
-              className="w-[32px] h-32px"
-            />
-            <p className="text-[14px] leading-5 ml-2">Giỏ hàng của bạn</p>
+            <div
+
+              className="w-[32px] h-32px bg-[red] block text-[red]">aa
+              </div>
+            <p className="text-[14px] leading-5 ml-2 small:invisible small:hidden">Giỏ hàng của bạn</p>
           </div>
         </div>
       </div>
       <div className="header-bot bg-[#212529] flex justify-center items-center">
         <div className="wrapper w-[100%] max-w-[1200px] px-[12px] mx-[auto] flex items-center">
-          <ul className="flex">
+          <ul className="flex shink-0 big:flex-row small:flex-col small:hidden">
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/iphone" className="w-full">Iphone</Link>
+              <Link to="/iphone" className="flex justify-center items-center">Iphone</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/Ipad" className="w-full">Ipad</Link>
+              <Link to="/Ipad" className="flex justify-center items-center">Ipad</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/Mac" className="w-full">Mac</Link>
+              <Link to="/Mac" className="flex justify-center items-center">Mac</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/Apple_Watch" className="w-full">Apple Watch</Link>
+              <Link to="/Apple_Watch" className="flex justify-center items-center">Apple Watch</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <a href="\">Phụ kiện</a>
+            <Link to="/phu-kien" className="flex justify-center items-center">Phụ kiện</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <a href="/tin-tuc">Tin tức</a>
+            <Link to="/tin-tuc" className="flex justify-center items-center">Tin tức</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-            <Link to="/today" className="w-full">Workshop</Link>
+            <Link to="/today" className="flex justify-center items-center">Workshop</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px] text-[#f6c743] font-medium">
-              <a href="/">Khuyến mãi</a>
+            <Link to="/khuyen-mai" className="flex justify-center items-center">Khuyến mãi</Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <a href="/fcare">F.Care</a>
+            <Link to="/fcare" className="flex justify-center items-center">F.Care</Link>
             </li>
           </ul>
 
-          <button className="phone-hotline ml-[52px] border-1">
+          <button className="phone-hotline ml-[52px] border-1 small:invisible small:hidden">
             <a
               href="tel:+84123456789"
               className="text-[#fff] bg-[#0664f9] outline-none px-[12px] h-[28px] flex items-center justify-center"

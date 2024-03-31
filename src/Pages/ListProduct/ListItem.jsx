@@ -154,11 +154,12 @@ export default function ListItem() {
               </div>
               <div className="content flex justify-end items-center gap-2">
                 <div className="text text-sm leading-5 font-normal text-[#444b52]">Sắp xếp theo:</div>
-            <select id="countries" className="outline-[#cbd1d6] border focus:border-[#cbd1d6] rounded border-[#cbd1d6] min-w-[124px] w-auto py-1 pl-3 pr-8 cursor-pointer text-[#444b52] bg-[#ffffff] font-normal inline-flex items-center relative justify-between transition-[all_.3s_cubic-bezier(0,0,.4,1)]">
-    <option selected>Choose ...</option>
-    <option value="LtH">Giá thấp đến cao</option>
-    <option value="HtL">Giá cao đến thấp</option>
-  </select>
+                <select id="Filter" className="outline-[#cbd1d6] border focus:border-[#cbd1d6] rounded border-[#cbd1d6] min-w-[124px] w-auto py-1 pl-3 pr-8 cursor-pointer text-[#444b52] bg-[#ffffff] font-normal inline-flex items-center relative justify-between transition-[all_.3s_cubic-bezier(0,0,.4,1)]">
+  <option disabled selected hidden>Choose ...</option>
+  <option value="LtH">Giá thấp đến cao</option>
+  <option value="HtL">Giá cao đến thấp</option>
+</select>
+
   </div>
             </div>
 
