@@ -56,14 +56,10 @@ export default function ListItem() {
           console.error("There was an error!", error);
         });
     }
-  }, []);
+  }, []); //Chi fetch API 1 lần
 
   // const navigationPrevRef = React.useRef(null);
   // const navigationNextRef = React.useRef(null);
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
 
   return (
     <div className="bg-[#f8f9fa]">
