@@ -17,7 +17,9 @@ export default function ListItem() {
   const [productData, setProductData] = useState(null);
   // const [selectedValue, setSelectedValue] = useState("");
   const { Product } = useParams();
+  // const [uniqueColors, setuniqueColors] = useState(null);
 
+  const [Linkto, setLinkto] = React.useState(null);
   function Find(event) {
     console.log(event.target.value);
   }
@@ -40,15 +42,21 @@ export default function ListItem() {
     }
     // console.log("Selected value:", value);
   };
-  // console.log(Product);
   useEffect(() => {
     if (Product) {
+      console.log(Product);
+      setLinkto(Product);
       axios
-        .get(`http://localhost:3000/iphone`)
+        .get(`http://localhost:3000/${Product}`)
         .then((response) => {
           // Xử lý dữ liệu nhận được từ API
-          // console.log("oke");
-          console.log(response.data);
+          // response.data.map((product) => {
+          //   const colorsArray = product.colors.split(", ");
+          //   console.log(product);
+          //   setuniqueColors([...new Set(colorsArray)]);
+          // });
+          // console.log(uniqueColors);
+          // console.log(response.data);
           setProductData(response.data);
         })
         .catch((error) => {
@@ -71,12 +79,12 @@ export default function ListItem() {
             </a>
           </li>
           <li className="breadcrumb-item2  h-5 text-[#444b52] text-[14px] leading-5">
-            Iphone
+            {Product}
           </li>
         </ol>
 
         <h1 className="h1 text-center text-4xl leading-9 font-medium mb-8">
-          iPhone
+          {Product}
         </h1>
         <main className="rounded-[6px] bg-[#ffffff] shadow-[0_1px_4px_rgba(10,10,10,.15)] block">
           <div>
@@ -98,86 +106,20 @@ export default function ListItem() {
                       Tất cả
                     </button>
                   </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onchange={() => Find(1)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 15 Pro Max
-                    </button>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onClick={() => Find(2)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 15 Pro
-                    </button>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onClick={() => Find(3)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 15 Plus
-                    </button>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onClick={() => Find(4)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 15
-                    </button>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onClick={() => Find(5)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 14 Pro Max
-                    </button>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onClick={() => Find(6)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 14 Plus
-                    </button>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onClick={() => Find(7)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 14
-                    </button>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onClick={() => Find(8)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 13
-                    </button>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onClick={() => Find(9)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 12
-                    </button>
-                  </SwiperSlide>
-                  <SwiperSlide>
-                    <button
-                      onClick={() => Find(10)}
-                      className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
-                    >
-                      iPhone 11
-                    </button>
-                  </SwiperSlide>
+                  {/* {productData ? (
+                    productData.map((product, index) => (
+                      <SwiperSlide>
+                        <button
+                          onchange={() => Find(product.ProductID)}
+                          className="whitespace-nowrap w-auto min-w-[140px] text-center inline-block text-[16px] leading-6 font-normal text-[#6a737a] py-[6px] px-3 rounded"
+                        >
+                          {product.product_name}
+                        </button>
+                      </SwiperSlide>
+                    ))
+                  ) : (
+                    <p>Loading...</p>
+                  )} */}
                 </Swiper>
               </div>
               <div className="content flex justify-end items-center gap-2">
@@ -206,7 +148,12 @@ export default function ListItem() {
                 {/* Kiểm tra xem dữ liệu đã được nhận chưa */}
                 {productData ? (
                   productData.map((product, index) => (
-                    <ProductItem key={index} product={product} />
+                    <ProductItem
+                      key={index}
+                      product={product}
+                      type={Linkto}
+                      // colors={uniqueColors}
+                    />
                   ))
                 ) : (
                   <p>Loading...</p>

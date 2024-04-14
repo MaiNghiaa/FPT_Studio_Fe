@@ -1,0 +1,26 @@
+.fullscreen-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000; /* Màu nền đen */
+}
+
+.fullscreen-bg__img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.fullscreen-bg__text {
+  color: #fff; /* Màu trắng cho văn bản */
+  font-size: 24px;
+  position: absolute;
+  bottom: 20px;
+  text-align: center;
+  width: 100%;
+}

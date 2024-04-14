@@ -30,11 +30,15 @@ export default function Header() {
             </form>
           </div>
           <div className="header-cart flex-1  inline-flex items-center text-[#e1e4e6] py-[10px] pl-[24px] ">
-            <div
-
-              className="w-[32px] h-32px bg-[red] block text-[red]">aa
-              </div>
-            <p className="text-[14px] leading-5 ml-2 small:invisible small:hidden">Giỏ hàng của bạn</p>
+            <div className="w-[30px] h-[30]px block ">
+              <img
+                src={require("../../assets/Icon/shopping-cart.png")}
+                alt=""
+              />
+            </div>
+            <p className="text-[14px] leading-5 ml-2 small:invisible small:hidden">
+              Giỏ hàng của bạn
+            </p>
           </div>
         </div>
       </div>
@@ -42,31 +46,55 @@ export default function Header() {
         <div className="wrapper w-[100%] max-w-[1200px] px-[12px] mx-[auto] flex items-center">
           <ul className="flex shink-0 big:flex-row small:flex-col small:hidden">
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/iphone" className="flex justify-center items-center">Iphone</Link>
+              <Link to="/iphone" className="flex justify-center items-center">
+                Iphone
+              </Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/Ipad" className="flex justify-center items-center">Ipad</Link>
+              <Link to="/Ipad" className="flex justify-center items-center">
+                Ipad
+              </Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/Mac" className="flex justify-center items-center">Mac</Link>
+              <Link to="/Mac" className="flex justify-center items-center">
+                Mac
+              </Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/Apple_Watch" className="flex justify-center items-center">Apple Watch</Link>
+              <Link
+                to="/Apple_Watch"
+                className="flex justify-center items-center"
+              >
+                Apple Watch
+              </Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-            <Link to="/phu-kien" className="flex justify-center items-center">Phụ kiện</Link>
+              <Link to="/phu-kien" className="flex justify-center items-center">
+                Phụ kiện
+              </Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-            <Link to="/tin-tuc" className="flex justify-center items-center">Tin tức</Link>
+              <Link to="/tin-tuc" className="flex justify-center items-center">
+                Tin tức
+              </Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-            <Link to="/today" className="flex justify-center items-center">Workshop</Link>
+              <Link to="/today" className="flex justify-center items-center">
+                Workshop
+              </Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px] text-[#f6c743] font-medium">
-            <Link to="/khuyen-mai" className="flex justify-center items-center">Khuyến mãi</Link>
+              <Link
+                to="/khuyen-mai"
+                className="flex justify-center items-center"
+              >
+                Khuyến mãi
+              </Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-            <Link to="/fcare" className="flex justify-center items-center">F.Care</Link>
+              <Link to="/fcare" className="flex justify-center items-center">
+                F.Care
+              </Link>
             </li>
           </ul>
 

@@ -1,36 +1,58 @@
-import React from "react";
-function formatCash(str) {
-  if (typeof str !== "string") {
-    return str;
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+function formatCash(input) {
+  if (!Array.isArray(input) && typeof input !== "string") {
+    return input;
   }
-  return str
-    .split("")
-    .reverse()
-    .reduce((prev, next, index) => {
-      return (index % 3 ? next : next + ",") + prev;
-    });
+  const cashArray = Array.isArray(input) ? input : input.split("");
+  if (cashArray.length === 0) {
+    return 0;
+  }
+  return cashArray.reverse().reduce((prev, next, index) => {
+    return (index % 3 ? next : next + ",") + prev;
+  }, "");
 }
-function ProductItem({ product }) {
+
+// const test = "Ip15pr_Ip15prm.webp";
+const ProductItem = React.memo(function ProductItem({
+  product,
+  index,
+  type,
+  // colors,
+}) {
+  console.log(product.image_caption_URL);
   return (
-    <div className="product-item h-[534px] bg-[#fff] rounded-none pt-[24px] pb-[32px] px-[12px] flex flex-col basis-[calc(100%/3)] border-[1px] border-[#edeeef] border-t-0 border-l-0">
+    <div
+      key={index}
+      className="product-item h-[534px] bg-[#fff] rounded-none pt-[24px] pb-[32px] px-[12px] flex flex-col basis-[calc(100%/3)] border-[1px] border-[#edeeef] border-t-0 border-l-0"
+    >
       <div className="product-item-img h-[240px] px-[30px] mb-[16px] relative text-center">
-        <a href="" className="block w-full">
+        <Link to={`/${type}/${product.product_name}`}>
           <img
             className="w-[307px] h-[240px] object-contain transition-[all_.3s_ease]"
-            src={require("../assets/images/List/Items/Iphone/Ip11.jpg")}
+            src={require(`../assets/images/List/Items/${product.image_caption_URL}`)}
+            // src={require(`../assets/images/List/Items/PK/PK18.webp`)}
             alt=""
           />
-        </a>
+        </Link>
       </div>
       <div className="product-item-info flex flex-col items-center gap-[8px]">
         <div className="product-color flex gap-3 mb-4 justify-center">
-          {/* Mã màu sản phẩm */}
+          {product.colors &&
+            [...new Set(product.colors.split(","))].map((color, index) => (
+              <span
+                key={index}
+                className={`rounded-[50%] shadow-[0_1px_1px_rgba(0,0,0,.15)] w-4 h-4 bg-[${color}]`}
+              ></span>
+            ))}
         </div>
-        <a href="/">
+
+        <Link to={`/${type}/${product.product_name}`}>
           <h3 className="product_name text-[20px] leading-[28px] font-medium text-center overflow-hidden text-[#32373d]">
             {product.product_name}
+            {console.log(product.image_caption_URL)}
           </h3>
-        </a>
+        </Link>
         <div className="product-price flex gap-2 items-end justify-center m-0">
           <div className="text text-[16px] font-normal leading-[24px] text-[#444b52]">
             Giá chỉ
@@ -44,15 +66,15 @@ function ProductItem({ product }) {
         </div>
       </div>
       <div className="product-item-detail flex flex-[1] mt-4 justify-center items-start">
-        <a
-          href="/"
+        <Link
+          to={`/${type}/${product.product_name}`}
           className="w-[176px] text-[#6a737a] border border-[#cbd1d6] bg-[#ffffff] h-[32px] px-[12px] text-[16px] leading-4 inline-flex items-center justify-center flex-col select-none transition-[all_.3s_cubic-bezier(0,0,.4,1)] pointer"
         >
           XEM CHI TIẾT
-        </a>
+        </Link>
       </div>
     </div>
   );
-}
+});
 
 export default ProductItem;
