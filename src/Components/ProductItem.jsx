@@ -60,9 +60,11 @@ const ProductItem = React.memo(function ProductItem({
           <div className="price text-[20px] leading-7 font-medium text-[#cb1c22]">
             {formatCash(product.MaxCaptionPrice)} đ
           </div>
-          <strike className="oldPrice text-[#939ca3] text-[16px] leading-6 font-normal">
-            {formatCash(product.OldPrice)} đ
-          </strike>
+          {formatCash(product.OldPrice) !== 0 && (
+            <strike className="oldPrice text-[#939ca3] text-[16px] leading-6 font-normal">
+              {formatCash(product.OldPrice)} đ
+            </strike>
+          )}
         </div>
       </div>
       <div className="product-item-detail flex flex-[1] mt-4 justify-center items-start">
