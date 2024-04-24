@@ -1,6 +1,6 @@
 import axios from "axios";
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { banner1, banner2, banner3 } from "../../Utils";
 import "swiper/swiper-bundle.css";
@@ -10,22 +10,58 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "../ListProduct/ProductDetail.css";
+function formatCash(input) {
+  if (!Array.isArray(input) && typeof input !== "string") {
+    return input;
+  }
+  const cashArray = Array.isArray(input) ? input : input.split("");
+  if (cashArray.length === 0) {
+    return 0;
+  }
+  return cashArray.reverse().reduce((prev, next, index) => {
+    return (index % 3 ? next : next + ",") + prev;
+  }, "");
+}
 
 export default function ProductDetail() {
+  const [headingData, setHeadingData] = useState(null);
+  const [descriptionData, setDescriptionData] = useState(null);
   const { Product, Detail } = useParams();
+  const [dataPhukien, setdataPhukien] = useState(null);
+  const [CardDetailResponse, setCardDetailResponse] = useState(null);
+  const [ProductDetail, setProductData] = useState(null);
+  const [moreDetail, setmoreDetail] = useState(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [
+          CardDetailResponse,
+          productResponse,
+          phukienResponse,
+          moreDetails,
+        ] = await Promise.all([
+          axios.get(`http://localhost:3000/${Product}/${Detail}`),
+          axios.get(`http://localhost:3000/${Product}/${Detail}`),
+          axios.get(`http://localhost:3000/${Product}/${Detail}/PK`),
+          axios.get(`http://localhost:3000/${Product}/${Detail}/MoreDetail`),
+        ]);
 
-  // useEffect(() => {
-  //   if (Detail) {
-  //     console.log(Detail, Product);
-  //     axios
-  //       .get(`http://localhost:3000/${Product}/${Detail}`)
-  //       .then((response) => {})
-  //       .catch((error) => {
-  //         // Xử lý lỗi nếu có
-  //         console.error("There was an error!", error);
-  //       });
-  //   }
-  // }, []);
+        // Xử lý dữ liệu nhận được từ cả hai cuộc gọi API
+        setCardDetailResponse(CardDetailResponse.data);
+        setProductData();
+        setdataPhukien(phukienResponse.data);
+        setmoreDetail(moreDetails.data);
+        setHeadingData(moreDetails.data.headingData);
+        setDescriptionData(moreDetails.data.descriptionData);
+      } catch (error) {
+        console.error("There was an error!", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  console.log(moreDetail);
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
@@ -63,34 +99,7 @@ export default function ProductDetail() {
                         <img
                           className=""
                           src="https://images.fpt.shop/unsafe/fit-in/576x430/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/9/20/638307989548944936_iphone-15-promax-xanh-1.jpg"
-                          alt=""
-                        />
-                      </picture>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
-                        <img
-                          className=""
-                          src="https://images.fpt.shop/unsafe/fit-in/576x430/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/9/20/638307989548944936_iphone-15-promax-xanh-1.jpg"
-                          alt=""
-                        />
-                      </picture>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
-                        <img
-                          className=""
-                          src="https://images.fpt.shop/unsafe/fit-in/576x430/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/9/20/638307989548944936_iphone-15-promax-xanh-1.jpg"
-                          alt=""
-                        />
-                      </picture>
-                    </SwiperSlide>
-                    <SwiperSlide>
-                      <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
-                        <img
-                          className=""
-                          src="https://images.fpt.shop/unsafe/fit-in/576x430/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/9/20/638307989548944936_iphone-15-promax-xanh-1.jpg"
-                          alt=""
+                          alt={Product}
                         />
                       </picture>
                     </SwiperSlide>
@@ -131,7 +140,7 @@ export default function ProductDetail() {
                           256GB
                         </label>
                       </div>
-                      <p class="text-[14px] leading-5 font-normal mb-0 text-[#444b52]">
+                      <p className="text-[14px] leading-5 font-normal mb-0 text-[#444b52]">
                         29.390.000đ
                       </p>
                     </a>
@@ -360,126 +369,49 @@ export default function ProductDetail() {
                   <div className="col-12 px-0 flex-[0_0_100%] max-w-full">
                     <div className="product-related__heading py-4 px-5">
                       <div className="h4 text-[20px] font-medium leading-7">
-                        Phụ kiện tương thích
+                        Các phụ kiện khác
                       </div>
                     </div>
                   </div>
-                  <div className=" flex-[0_0_25%] max-w-[25%] sm:flex-[0_0_50%] sm:max-w-[50%] xs:flex-[0_0_100%] xs:max-w-full">
-                    <div className="item grid gap-4 p-3 sm:gap-2 py-0 px-2">
-                      <a
-                        className="item__img h-[210px] text-center sm:h-[154px]"
-                        href="/phu-kien/sac-20w-usb-c-power-adapter"
-                      >
-                        <img
-                          className="h-full w-auto"
-                          src="https://images.fpt.shop/unsafe/fit-in/210x210/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2020/10/20/637387863045167961_pk-apple-00720432-dd.png"
-                          alt="Củ sạc Apple Power Adapter 20W Type-C"
-                        />
-                      </a>
-                      <div className="item__info grid gap-[8px]">
-                        <a href="/phu-kien/sac-20w-usb-c-power-adapter">
-                          <div className="item__name text-[18px] leading-6 font-medium text-[#32373d] overflow-hidden sm:text-[14px] sm:leading-5 sm:font-medium">
-                            Củ sạc Apple Power Adapter 20W Type-C
+                  {dataPhukien &&
+                    dataPhukien.map((Items, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="flex-[0_0_25%] max-w-[25%] sm:flex-[0_0_50%] sm:max-w-[50%] xs:flex-[0_0_100%] xs:max-w-full"
+                        >
+                          <div className="item grid gap-4 p-3 sm:gap-2 py-0 px-2">
+                            <Link
+                              to={`/phu-kien/${Items.product_name}`}
+                              className="item__img h-[210px] text-center sm:h-[154px]"
+                            >
+                              <img
+                                className="h-full w-auto"
+                                src={require(`../../assets/images/List/Items/${Items.image_caption_URL}`)}
+                                alt=""
+                              />
+                            </Link>
+                            <div className="item__info grid gap-[8px]">
+                              <a href="/phu-kien/sac-20w-usb-c-power-adapter">
+                                <div className="item__name text-[18px] leading-6 font-medium text-[#32373d] overflow-hidden sm:text-[14px] sm:leading-5 sm:font-medium">
+                                  {Items.product_name}
+                                </div>
+                              </a>
+                              <div className="item__price flex items-center gap-2 sm:flex-col sm:items-start sm:gap-0">
+                                <div className="text text-primary text-[18px] leading-6 font-medium text-[#cb1c22] sm:text-[14px] sm:leading-5 sm:font-medium">
+                                  {formatCash(Items.CaptionPrice)} đ
+                                </div>
+                                {formatCash(Items.OldPrice) !== 0 && (
+                                  <strike className="text text-grayscale text-[#939ca3] text-[14px] leading-5">
+                                    {formatCash(Items.OldPrice)} đ
+                                  </strike>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                        </a>
-                        <div className="item__price flex items-center gap-2 sm:flex-col sm:items-start sm:gap-0">
-                          <div className="text text-primary text-[18px] leading-6 font-medium text-[#cb1c22] sm:text-[14px] sm:leading-5 sm:font-medium">
-                            489.000₫
-                          </div>
-                          <strike className="text text-grayscale text-[#939ca3] text-[14px] leading-5">
-                            549.000₫
-                          </strike>
                         </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className=" flex-[0_0_25%] max-w-[25%] sm:flex-[0_0_50%] sm:max-w-[50%] xs:flex-[0_0_100%] xs:max-w-full">
-                    <div className="item grid gap-4 p-3 sm:gap-2 py-0 px-2">
-                      <a
-                        className="item__img h-[210px] text-center sm:h-[154px]"
-                        href="/phu-kien/sac-20w-usb-c-power-adapter"
-                      >
-                        <img
-                          className="h-full w-auto"
-                          src="https://images.fpt.shop/unsafe/fit-in/210x210/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2020/10/20/637387863045167961_pk-apple-00720432-dd.png"
-                          alt="Củ sạc Apple Power Adapter 20W Type-C"
-                        />
-                      </a>
-                      <div className="item__info grid gap-[8px]">
-                        <a href="/phu-kien/sac-20w-usb-c-power-adapter">
-                          <div className="item__name text-[18px] leading-6 font-medium text-[#32373d] overflow-hidden sm:text-[14px] sm:leading-5 sm:font-medium">
-                            Củ sạc Apple Power Adapter 20W Type-C
-                          </div>
-                        </a>
-                        <div className="item__price flex items-center gap-2 sm:flex-col sm:items-start sm:gap-0">
-                          <div className="text text-primary text-[18px] leading-6 font-medium text-[#cb1c22] sm:text-[14px] sm:leading-5 sm:font-medium">
-                            489.000₫
-                          </div>
-                          <strike className="text text-grayscale text-[#939ca3] text-[14px] leading-5">
-                            549.000₫
-                          </strike>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className=" flex-[0_0_25%] max-w-[25%] sm:flex-[0_0_50%] sm:max-w-[50%] xs:flex-[0_0_100%] xs:max-w-full">
-                    <div className="item grid gap-4 p-3 sm:gap-2 py-0 px-2">
-                      <a
-                        className="item__img h-[210px] text-center sm:h-[154px]"
-                        href="/phu-kien/sac-20w-usb-c-power-adapter"
-                      >
-                        <img
-                          className="h-full w-auto"
-                          src="https://images.fpt.shop/unsafe/fit-in/210x210/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2020/10/20/637387863045167961_pk-apple-00720432-dd.png"
-                          alt="Củ sạc Apple Power Adapter 20W Type-C"
-                        />
-                      </a>
-                      <div className="item__info grid gap-[8px]">
-                        <a href="/phu-kien/sac-20w-usb-c-power-adapter">
-                          <div className="item__name text-[18px] leading-6 font-medium text-[#32373d] overflow-hidden sm:text-[14px] sm:leading-5 sm:font-medium">
-                            Củ sạc Apple Power Adapter 20W Type-C
-                          </div>
-                        </a>
-                        <div className="item__price flex items-center gap-2 sm:flex-col sm:items-start sm:gap-0">
-                          <div className="text text-primary text-[18px] leading-6 font-medium text-[#cb1c22] sm:text-[14px] sm:leading-5 sm:font-medium">
-                            489.000₫
-                          </div>
-                          <strike className="text text-grayscale text-[#939ca3] text-[14px] leading-5">
-                            549.000₫
-                          </strike>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className=" flex-[0_0_25%] max-w-[25%] sm:flex-[0_0_50%] sm:max-w-[50%] xs:flex-[0_0_100%] xs:max-w-full">
-                    <div className="item grid gap-4 p-3 sm:gap-2 py-0 px-2">
-                      <a
-                        className="item__img h-[210px] text-center sm:h-[154px]"
-                        href="/phu-kien/sac-20w-usb-c-power-adapter"
-                      >
-                        <img
-                          className="h-full w-auto"
-                          src="https://images.fpt.shop/unsafe/fit-in/210x210/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2020/10/20/637387863045167961_pk-apple-00720432-dd.png"
-                          alt="Củ sạc Apple Power Adapter 20W Type-C"
-                        />
-                      </a>
-                      <div className="item__info grid gap-[8px]">
-                        <a href="/phu-kien/sac-20w-usb-c-power-adapter">
-                          <div className="item__name text-[18px] leading-6 font-medium text-[#32373d] overflow-hidden sm:text-[14px] sm:leading-5 sm:font-medium">
-                            Củ sạc Apple Power Adapter 20W Type-C
-                          </div>
-                        </a>
-                        <div className="item__price flex items-center gap-2 sm:flex-col sm:items-start sm:gap-0">
-                          <div className="text text-primary text-[18px] leading-6 font-medium text-[#cb1c22] sm:text-[14px] sm:leading-5 sm:font-medium">
-                            489.000₫
-                          </div>
-                          <strike className="text text-grayscale text-[#939ca3] text-[14px] leading-5">
-                            549.000₫
-                          </strike>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                      );
+                    })}
                 </div>
               </div>
             </div>
@@ -496,112 +428,155 @@ export default function ProductDetail() {
                         <div className="h4 text-[32px] leading-[40px] font-medium mb-4">
                           Thông số kĩ thuật
                         </div>
-                        {/* 
-                        <div class="card card-md">
-<div class="card-body">
-<table class="table">
-<tbody></tbody>
-<tbody><tr>
-<td>
-Màn hình
-</td>
-<td>
-6.7 inch, OLED, Super Retina XDR, 2796 x 1290 Pixels
-</td>
-</tr>
-<tr>
-<td>
-Camera sau
-</td>
-<td>
-48.0 MP + 12.0 MP + 12.0 MP
-</td>
-</tr>
-<tr>
-<td>
-Camera Selfie
-</td>
-<td>
-12.0 MP
-</td>
-</tr>
-<tr>
-<td>
-RAM
-</td>
-<td>
-8 GB
-</td>
-</tr>
-<tr>
-<td>
-Bộ nhớ trong
-</td>
-<td>
-256 GB
-</td>
-</tr>
-<tr>
-<td>
-CPU
-</td>
-<td>
-Apple A17 Pro
-</td>
-</tr>
-<tr>
-<td>
-Dung lượng pin
-</td>
-<td>
-29
-</td>
-</tr>
-<tr>
-<td>
-Thẻ sim
-</td>
-<td>
-1 - 1 eSIM, 1 Nano SIM
-</td>
-</tr>
-<tr>
-<td>
-Hệ điều hành
-</td>
-<td>
-iOS 17
-</td>
-</tr>
-<tr>
-<td>
-Xuất xứ
-</td>
-<td>
-Trung Quốc
-</td>
-</tr>
-<tr>
-<td>
-Thời gian ra mắt
-</td>
-<td>
-09/2023
-</td>
-</tr>
-</tbody></table>
-<div class="trigger">
-<a class="link" aria-controls="properties-modal">
-Xem cấu hình chi
-tiết<span class="ic-angle-right"></span>
-</a>
-</div>
-</div>
-</div>
-                        */}
+                        {CardDetailResponse &&
+                          CardDetailResponse.map((Items, index) => {
+                            return (
+                              <div className="block rounded-md shadow-[0_1px_4px_rgba(10,10,10,.15)] overflow-hidden">
+                                <div className="card-body pt-5 px-5">
+                                  <table className="table border-collapse w-full bg-[#fff]">
+                                    <thead></thead>
+                                    <tbody key={index}>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          màn hình{" "}
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.screen}
+                                        </td>
+                                      </tr>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          Camera sau
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.camera_sau}
+                                        </td>
+                                      </tr>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          Camera selfie
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.camera_selfie}
+                                        </td>
+                                      </tr>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          RAM
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.Ram}
+                                        </td>
+                                      </tr>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          CPU
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.CPU}
+                                        </td>
+                                      </tr>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          Dung Lượng pin
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.DungLuongPin}
+                                        </td>
+                                      </tr>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          Thẻ Sim
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.TheSim}
+                                        </td>
+                                      </tr>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          Hệ điều hành
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.HĐH}
+                                        </td>
+                                      </tr>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          Xuất xứ
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.XuatXu}
+                                        </td>
+                                      </tr>
+                                      <tr className="bg-[#f8f9fa]">
+                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
+                                          Thời gian ra mắt
+                                        </td>
+                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
+                                          {Items.Thoigianramat}
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                  <div className="trigger py-4 px-0 text-center">
+                                    {" "}
+                                  </div>
+                                </div>
+                              </div>
+                            );
+                          })}
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="detail__post pt-[48px] px-0 pb-[64px] bg-[#fff] shadow-[0_1px_4px_rgba(10,10,10,.15)] relative z-[1]">
+          <div className="contai halfsm:px-[10px] w-full max-w-[1200px] px-[12px] mx-auto ">
+            <div className="row flex flex-wrap justify-center mr-[calc(24px/-2)] ml-[calc(24px/-2)]">
+              <div className="col-9 p-0 flex-[0_0_75%] max-w-[75%]">
+                <div className="content">
+                  {headingData &&
+                    headingData.map((Heading, index) => {
+                      return (
+                        <div key={index}>
+                          <p style={{ textAlign: "justify", marginBottom: 11 }}>
+                            <strong>{Heading.Heading_name}</strong>
+                          </p>
+                          <p style={{ marginBottom: 11, textAlign: "center" }}>
+                            <b>
+                              <img
+                                alt=""
+                                src={require(`../../assets/images/ImageProductDetail/${Heading.Image_heading}`)}
+                              />
+                            </b>
+                          </p>
+                        </div>
+                      );
+                    })}
+                  {descriptionData &&
+                    descriptionData.map((Desc, index) => {
+                      return (
+                        <div key={index}>
+                          <h3
+                            style={{ textAlign: "justify", marginBottom: 11 }}
+                          >
+                            <b>{Desc.Title}</b>
+                          </h3>
+                          <p style={{ textAlign: "justify", marginBottom: 11 }}>
+                            {Desc.Description}
+                          </p>
+                          <p style={{ marginBottom: 11, textAlign: "center" }}>
+                            <img
+                              alt="iPhone 15 Pro Max Khung titan cao cấp, nhẹ và bền bỉ"
+                              src={require(`../../assets/images/ImageProductDetail/Desc/${Desc.Image}`)}
+                            />
+                          </p>
+                        </div>
+                      );
+                    })}
                 </div>
               </div>
             </div>

@@ -84,3 +84,12 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
+.detail__post .content div,
+.detail__post .content p {
+  font-size: 20px;
+  line-height: 28px;
+  font-weight: 400;
+  color: #6a737a;
+  margin-bottom: 40px !important;
+}
