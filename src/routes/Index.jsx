@@ -47,7 +47,10 @@ function Router() {
       children: [
         { path: PATH_HOME, element: <LandingPage /> },
         { path: `${PATH_PRODUCT}`, element: <ListProduct /> },
-        { path: PATH_PRODUCT_DETAIL, element: <ProductDetail /> },
+        {
+          path: PATH_PRODUCT_DETAIL,
+          element: <ProductDetail />,
+        },
         { path: PATH_NEWS, element: <Tintuc /> },
         { path: PATH_EVENTS, element: <Events /> },
         { path: PATH_FCARE, element: <Fcare /> },

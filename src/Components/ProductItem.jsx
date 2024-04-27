@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
 function formatCash(input) {
   if (!Array.isArray(input) && typeof input !== "string") {
     return input;
@@ -22,13 +23,17 @@ const ProductItem = React.memo(function ProductItem({
   MinRom,
   // colors,
 }) {
+  console.log(MinRom, ColorDefault);
+
   return (
     <div
       key={index}
       className="product-item h-[534px] bg-[#fff] rounded-none pt-[24px] pb-[32px] px-[12px] flex flex-col basis-[calc(100%/3)] border-[1px] border-[#edeeef] border-t-0 border-l-0"
     >
       <div className="product-item-img h-[240px] px-[30px] mb-[16px] relative text-center">
-        <Link to={`/${type}/${product.product_name}/${MinRom}/${ColorDefault}`}>
+        <Link
+          to={`/${type}/${product.product_name}?RomMin=${MinRom}&ColorDefault=${ColorDefault}`}
+        >
           <img
             className="w-[307px] h-[240px] object-contain transition-[all_.3s_ease]"
             src={require(`../assets/images/List/Items/${product.image_caption_URL}`)}
@@ -47,7 +52,9 @@ const ProductItem = React.memo(function ProductItem({
             ))}
         </div>
 
-        <Link to={`/${type}/${product.product_name}/${MinRom}/${ColorDefault}`}>
+        <Link
+          to={`/${type}/${product.product_name}?RomMin=${MinRom}&ColorDefault=${ColorDefault}`}
+        >
           <h3 className="product_name text-[20px] leading-[28px] font-medium text-center overflow-hidden text-[#32373d]">
             {product.product_name}
           </h3>
@@ -68,7 +75,7 @@ const ProductItem = React.memo(function ProductItem({
       </div>
       <div className="product-item-detail flex flex-[1] mt-4 justify-center items-start">
         <Link
-          to={`/${type}/${product.product_name}/${MinRom}/${ColorDefault}`}
+          to={`/${type}/${product.product_name}?RomMin=${MinRom}&ColorDefault=${ColorDefault}`}
           className="w-[176px] text-[#6a737a] border border-[#cbd1d6] bg-[#ffffff] h-[32px] px-[12px] text-[16px] leading-4 inline-flex items-center justify-center flex-col select-none transition-[all_.3s_cubic-bezier(0,0,.4,1)] pointer"
         >
           XEM CHI TIẾT

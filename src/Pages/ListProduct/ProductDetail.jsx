@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { banner1, banner2, banner3 } from "../../Utils";
 import "swiper/swiper-bundle.css";
@@ -28,36 +28,36 @@ export default function ProductDetail() {
   const [initialized, setInitialized] = useState(false);
 
   const [descriptionData, setDescriptionData] = useState(null);
-  const { Product, Detail, RomMin, ColorDefault } = useParams();
+  const { Product, Detail } = useParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  const RomMin = searchParams.get("RomMin");
+  const ColorDefault = searchParams.get("ColorDefault");
+
   const [dataPhukien, setdataPhukien] = useState(null);
-  const [CardDetailResponse, setCardDetailResponse] = useState(null);
-  const [ProductDetailPricing, setProductPricingData] = useState(null);
+  const [DetailItem, setDetailItem] = useState(null);
+  // const [ProductDetailPricing, setProductPricingData] = useState(null);
   const [moreDetail, setmoreDetail] = useState(null);
   const handleInit = () => {
     setInitialized(true);
   };
-
+  // console.log(Product, Detail, RomMin, ColorDefault);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [
-          ProductsDetailPricing,
-          cardDetailResponse,
-          phukienResponse,
-          moreDetails,
-        ] = await Promise.all([
+        const [DetailItemResponse, moreDetails] = await Promise.all([
           axios.get(
-            `http://localhost:3000/${Product}/${Detail}/${RomMin}/${ColorDefault}`
+            `http://localhost:3000/${Product}/${Detail}?RomMin=${RomMin}&ColorDefault=${ColorDefault}`
           ),
-          axios.get(`http://localhost:3000/${Product}/${Detail}`),
-          axios.get(`http://localhost:3000/${Product}/${Detail}/PK`),
+          // axios.get(`http://localhost:3000/${Product}/${Detail}/PK`),
           axios.get(`http://localhost:3000/${Product}/${Detail}/MoreDetail`),
         ]);
 
         // Xử lý dữ liệu nhận được từ các cuộc gọi API
-        setProductPricingData(ProductsDetailPricing.data);
-        setCardDetailResponse(cardDetailResponse.data);
-        setdataPhukien(phukienResponse.data);
+        // setProductPricingData(ProductsDetailPricing.data);
+        setDetailItem(DetailItemResponse.data);
+        // setdataPhukien(DetailItemResponse.data);
         setmoreDetail(moreDetails.data);
         setHeadingData(moreDetails.data.headingData);
         setDescriptionData(moreDetails.data.descriptionData);
@@ -67,12 +67,8 @@ export default function ProductDetail() {
     };
 
     fetchData();
-  }, [Product, Detail]);
-
-  useEffect(() => {
-    console.log(ProductDetailPricing);
-  }, [moreDetail]);
-
+  }, [Product, Detail, ColorDefault, RomMin]);
+  console.log(DetailItem);
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
@@ -383,8 +379,8 @@ export default function ProductDetail() {
                       </div>
                     </div>
                   </div>
-                  {dataPhukien &&
-                    dataPhukien.map((Items, index) => {
+                  {DetailItem && DetailItem.DataPk ? (
+                    DetailItem.DataPk.map((Items, index) => {
                       return (
                         <div
                           key={index}
@@ -421,7 +417,10 @@ export default function ProductDetail() {
                           </div>
                         </div>
                       );
-                    })}
+                    })
+                  ) : (
+                    <p>Loading...</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -438,8 +437,8 @@ export default function ProductDetail() {
                         <div className="h4 text-[32px] leading-[40px] font-medium mb-4">
                           Thông số kĩ thuật
                         </div>
-                        {CardDetailResponse &&
-                          CardDetailResponse.map((Items, index) => {
+                        {DetailItem && DetailItem.DataCard ? (
+                          DetailItem.DataCard.map((Items, index) => {
                             return (
                               <div
                                 key={index}
@@ -537,7 +536,10 @@ export default function ProductDetail() {
                                 </div>
                               </div>
                             );
-                          })}
+                          })
+                        ) : (
+                          <p>Loading...</p>
+                        )}
                       </div>
                     </div>
                   </div>
