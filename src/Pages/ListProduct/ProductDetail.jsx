@@ -10,6 +10,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import "../ListProduct/ProductDetail.css";
+
 function formatCash(input) {
   if (!Array.isArray(input) && typeof input !== "string") {
     return input;
@@ -19,7 +20,7 @@ function formatCash(input) {
     return 0;
   }
   return cashArray.reverse().reduce((prev, next, index) => {
-    return (index % 3 ? next : next + ",") + prev;
+    return (index % 3 ? next : next + ".") + prev;
   }, "");
 }
 
@@ -39,10 +40,12 @@ export default function ProductDetail() {
   const [DetailItem, setDetailItem] = useState(null);
   // const [ProductDetailPricing, setProductPricingData] = useState(null);
   const [moreDetail, setmoreDetail] = useState(null);
+  const [isLogged, setIsLogged] = useState(false);
+
   const handleInit = () => {
     setInitialized(true);
   };
-  // console.log(Product, Detail, RomMin, ColorDefault);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -50,14 +53,10 @@ export default function ProductDetail() {
           axios.get(
             `http://localhost:3000/${Product}/${Detail}?RomMin=${RomMin}&ColorDefault=${ColorDefault}`
           ),
-          // axios.get(`http://localhost:3000/${Product}/${Detail}/PK`),
           axios.get(`http://localhost:3000/${Product}/${Detail}/MoreDetail`),
         ]);
 
-        // Xử lý dữ liệu nhận được từ các cuộc gọi API
-        // setProductPricingData(ProductsDetailPricing.data);
         setDetailItem(DetailItemResponse.data);
-        // setdataPhukien(DetailItemResponse.data);
         setmoreDetail(moreDetails.data);
         setHeadingData(moreDetails.data.headingData);
         setDescriptionData(moreDetails.data.descriptionData);
@@ -67,7 +66,28 @@ export default function ProductDetail() {
     };
 
     fetchData();
-  }, [Product, Detail, ColorDefault, RomMin]);
+  }, []);
+
+  const handleColorClick = (colorName) => {
+    // Tạo một bản sao của DetailItem với ColorDefault mới
+    const updatedDetailItem = {
+      ...DetailItem,
+      ColorDefault: colorName,
+    };
+
+    // Cập nhật DetailItem với ColorDefault mới
+    setDetailItem(updatedDetailItem);
+  };
+  const handleRomClick = (RomName) => {
+    // Tạo một bản sao của DetailItem với ColorDefault mới
+    const updatedDetailItem = {
+      ...DetailItem,
+      RomMin: RomName,
+    };
+
+    // Cập nhật DetailItem với ColorDefault mới
+    setDetailItem(updatedDetailItem);
+  };
   console.log(DetailItem);
   return (
     <div>
@@ -115,108 +135,152 @@ export default function ProductDetail() {
             </div>
             <div className="col-6 flex-[0_0_50%] max-w-[50%] px-3">
               <div>
-                <h1 className="text-[36px] leading-[48px] text-[32px] leading-8 font-medium mb-3">
-                  iPhone 15 Pro Max 256GB
-                </h1>
+                {/* {DetailItem && } */}
+
+                {/* {Cate_name} */}
+                {DetailItem && DetailItem.DetailCate ? (
+                  <h1 className="text-[36px] leading-[48px] text-[32px] leading-8 font-medium mb-3">
+                    {DetailItem.DetailCate} {DetailItem.ColorDefault}{" "}
+                    {DetailItem.RomMin}
+                  </h1>
+                ) : (
+                  <p>load</p>
+                )}
+
                 <div className="npi-border border-[#0664f9] px-3 pt-3 pb-6 border-solid round-[0px_0px_6px_6px]">
-                  <div className="price min-h-[40px] mb-4 flex justify-between items-center">
-                    <div className="box-price flex items-center">
-                      <span className="text-[32px] leading-[40px] font-medium text-[#cb1c22]">
-                        29.390.000đ
-                      </span>
-                      <strike className="text-promo text-[#939ca3] text-[24px] leading-8 pl-2 font-normal">
-                        34.990.000đ
-                      </strike>
-                    </div>
-                  </div>
+                  {DetailItem && DetailItem.DataPricing ? (
+                    DetailItem.DataPricing.map((item, index) => {
+                      const matchedDetail = item.DetailCR.find(
+                        (detail) =>
+                          detail.Color_name === DetailItem.ColorDefault
+                      );
+
+                      if (matchedDetail && item.Rom === DetailItem.RomMin) {
+                        return (
+                          <div
+                            key={index}
+                            className="price min-h-[40px] mb-4 flex justify-between items-center"
+                          >
+                            <div className="box-price flex items-center">
+                              <span className="text-[32px] leading-[40px] font-medium text-[#cb1c22]">
+                                {formatCash(matchedDetail.price.toString())}đ
+                              </span>
+                              <strike className="text-promo text-[#939ca3] text-[24px] leading-8 pl-2 font-normal">
+                                {formatCash(matchedDetail.OldPrice)}đ
+                              </strike>
+                            </div>
+                          </div>
+                        );
+                      } else {
+                        return null;
+                      }
+                    })
+                  ) : (
+                    <p>Loading...</p>
+                  )}
+
                   <div className="mb-4 flex rounded-md overflow-hidden">
-                    <a
-                      href=" "
-                      className="bg-[#edeeef] flex-[1] inline-flex flex-col items-center py-[6px] px-0 transition-[all_.3s_ease] text-[#444b52]"
-                    >
-                      <div className="radio flex items-center pointer-events-none m-0 font-medium">
-                        <input
-                          id="group-0"
-                          type="radio"
-                          defaultValue={0}
-                          name="group-0"
-                          className="m-[0_4px_0_0] relative rounded-none outline-none"
-                        />
-                        <label htmlFor="group-0 font-normal text-[14px] leading-[20px]">
-                          256GB
-                        </label>
-                      </div>
-                      <p className="text-[14px] leading-5 font-normal mb-0 text-[#444b52]">
-                        29.390.000đ
-                      </p>
-                    </a>
-                    <a
-                      href=" "
-                      className="bg-[#edeeef] flex-[1] inline-flex flex-col items-center py-[6px] px-0 transition-[all_.3s_ease] text-[#444b52]"
-                    >
-                      <div className="radio flex items-center pointer-events-none m-0 font-medium">
-                        <input
-                          id="group-0"
-                          type="radio"
-                          defaultValue={0}
-                          name="group-0"
-                          className="m-[0_4px_0_0] relative rounded-none outline-none"
-                        />
-                        <label htmlFor="group-0 font-normal text-[14px] leading-[20px]">
-                          256GB
-                        </label>
-                      </div>
-                      <p className="text-[14px] leading-5 font-normal mb-0 text-[#444b52]">
-                        29.390.000đ
-                      </p>
-                    </a>
-                    <a
-                      href=" "
-                      className="bg-[#edeeef] flex-[1] inline-flex flex-col items-center py-[6px] px-0 transition-[all_.3s_ease] text-[#444b52]"
-                    >
-                      <div className="radio flex items-center pointer-events-none m-0 font-medium">
-                        <input
-                          id="group-0"
-                          type="radio"
-                          defaultValue={0}
-                          name="group-0"
-                          className="m-[0_4px_0_0] relative rounded-none outline-none"
-                        />
-                        <label htmlFor="group-0 font-normal text-[14px] leading-[20px]">
-                          256GB
-                        </label>
-                      </div>
-                      <p className="text-[14px] leading-5 font-normal mb-0 text-[#444b52]">
-                        29.390.000đ
-                      </p>
-                    </a>
+                    {DetailItem && DetailItem.DataPricing ? (
+                      DetailItem.DataPricing.map((item, index) => (
+                        <a
+                          href="# "
+                          key={index}
+                          className={` flex-[1] inline-flex flex-col items-center py-[6px] px-0 transition-[all_.3s_ease] text-[#444b52] item ${
+                            item.Rom === DetailItem.RomMin
+                              ? "active bg-[#edeeef]"
+                              : "bg-[#f8f9fa]"
+                          }`}
+                          onClick={() => handleRomClick(item.Rom)}
+                        >
+                          <div className="radio flex items-center pointer-events-none m-0 font-medium">
+                            <input
+                              id={`group-${index}`}
+                              type="radio"
+                              defaultValue={0}
+                              name={`group-${index}`}
+                              selected
+                              className="m-[0_4px_0_0] rounded-none outline-none"
+                            />
+                            <label
+                              htmlFor={`group-${index}`}
+                              className="font-normal text-[14px] leading-[20px]"
+                            >
+                              {item.Rom}
+                            </label>
+                          </div>
+                          {DetailItem && DetailItem.DataPricing
+                            ? DetailItem.DataPricing.map((item, index) => {
+                                const matchedDetail = item.DetailCR.find(
+                                  (detail) =>
+                                    detail.Color_name ===
+                                    DetailItem.ColorDefault
+                                );
+
+                                if (
+                                  matchedDetail &&
+                                  item.Rom === DetailItem.RomMin
+                                ) {
+                                  return (
+                                    <p className="text-[14px] leading-5 font-normal mb-0 text-[#444b52]">
+                                      {formatCash(
+                                        matchedDetail.price.toString()
+                                      )}
+                                      đ
+                                    </p>
+                                  );
+                                } else {
+                                  return null;
+                                }
+                              })
+                            : ""}
+                        </a>
+                      ))
+                    ) : (
+                      <p>load</p>
+                    )}
                   </div>
                 </div>
-                <div className="colors mb-5 grid grid-cols-[118px_118px_118px_118px] gap-x-[calc(24px-2px)] gap-y-4">
-                  <div className="item grid justify-items-center gap-1 p-[12px_7px_8px_7px] cursor-pointer relative">
-                    <span className="bg-[#4C5363] w-7 h-7 rounded-[50%] shadow-[inset_0_2px_2px_rgba(0,0,0,.15)] inline-block relative "></span>
-                    <div className="text-[16px] leading-6 font-normal text-center">
-                      Titan Xanh
-                    </div>
-                  </div>
-                  <div className="item grid justify-items-center gap-1 p-[12px_7px_8px_7px] cursor-pointer relative">
-                    <span className="bg-[#4C5363] w-7 h-7 rounded-[50%] shadow-[inset_0_2px_2px_rgba(0,0,0,.15)] inline-block relative "></span>
-                    <div className="text-[16px] leading-6 font-normal text-center">
-                      Titan Xanh
-                    </div>
-                  </div>
-                  <div className="item grid justify-items-center gap-1 p-[12px_7px_8px_7px] cursor-pointer relative">
-                    <span className="bg-[#4C5363] w-7 h-7 rounded-[50%] shadow-[inset_0_2px_2px_rgba(0,0,0,.15)] inline-block relative "></span>
-                    <div className="text-[16px] leading-6 font-normal text-center">
-                      Titan Xanh
-                    </div>
-                  </div>
-                  <div className="item grid justify-items-center gap-1 p-[12px_7px_8px_7px] cursor-pointer relative">
-                    <span className="bg-[#4C5363] w-7 h-7 rounded-[50%] shadow-[inset_0_2px_2px_rgba(0,0,0,.15)] inline-block relative "></span>
-                    <div className="text-[16px] leading-6 font-normal text-center">
-                      Titan Xanh
-                    </div>
-                  </div>
+                <div className="colors mb-5">
+                  {DetailItem && DetailItem.DataPricing ? (
+                    DetailItem.DataPricing.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className=" grid grid-cols-[118px_118px_118px_118px] gap-x-[calc(24px-2px)] gap-y-4"
+                        >
+                          {item.Rom === DetailItem.RomMin &&
+                            item.DetailCR.map((detail, idx) => {
+                              return (
+                                <div
+                                  key={idx}
+                                  className={`item grid justify-items-center gap-1 p-[12px_7px_8px_7px] cursor-pointer relative ${
+                                    detail.Color_name ===
+                                    DetailItem.ColorDefault
+                                      ? "border-[#4391fb] border-[2px] rounded-[6px]"
+                                      : "border-[#edeeef]"
+                                  }`}
+                                  onClick={() =>
+                                    handleColorClick(detail.Color_name)
+                                  }
+                                >
+                                  <span
+                                    style={{
+                                      backgroundColor: `${detail.color}`,
+                                    }}
+                                    className={` w-7 h-7 rounded-[50%] shadow-[inset_0_2px_2px_rgba(0,0,0,.15)] inline-block relative`}
+                                  ></span>
+                                  <div className="text-[16px] leading-6 font-normal text-center">
+                                    {detail.Color_name}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p>Loading...</p>
+                  )}
                 </div>
                 <div className="warranty mb-4">
                   <div className="title text-[16px] leading-6 font-medium text-[#32373d] mb-1">
@@ -379,7 +443,8 @@ export default function ProductDetail() {
                       </div>
                     </div>
                   </div>
-                  {DetailItem && DetailItem.DataPk ? (
+                  {DetailItem &&
+                    DetailItem.DataPk &&
                     DetailItem.DataPk.map((Items, index) => {
                       return (
                         <div
@@ -417,10 +482,7 @@ export default function ProductDetail() {
                           </div>
                         </div>
                       );
-                    })
-                  ) : (
-                    <p>Loading...</p>
-                  )}
+                    })}
                 </div>
               </div>
             </div>

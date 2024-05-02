@@ -46,8 +46,11 @@ const ProductItem = React.memo(function ProductItem({
           {product.colors &&
             [...new Set(product.colors.split(","))].map((color, index) => (
               <span
+                style={{
+                  backgroundColor: `${color}`,
+                }}
                 key={index}
-                className={`rounded-[50%] shadow-[0_1px_1px_rgba(0,0,0,.15)] w-4 h-4 bg-[${color}]`}
+                className={`rounded-[50%] shadow-[0_1px_1px_rgba(0,0,0,.15)] w-4 h-4`}
               ></span>
             ))}
         </div>
