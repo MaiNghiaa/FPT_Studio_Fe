@@ -8,7 +8,7 @@ import {
   Titleitemgs3,
   Titleitemgs4,
   Titleitemgs5,
-} from "../../../Utils";
+} from "./../../../Utils/utils";
 export default function Cate() {
   return (
     <div className="List-cate flex gap-6 items-baseline">

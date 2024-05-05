@@ -1,27 +1,10 @@
 import React from "react";
-// import Swiper core and required modules
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import "swiper/css/effect-fade";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import {
-  Gallery1,
-  Gallery2,
-  Gallery3,
-  Gallery4,
-  Gallery5,
-  iconBox,
   iconitem,
   iconcrown,
   iconshield,
   iconlike,
-} from "../../../Utils";
-
+} from "../../../Utils/utils";
 export default function Footer() {
   return (
     <div className="footer text-white">

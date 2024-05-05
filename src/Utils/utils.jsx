@@ -11,7 +11,7 @@ import Gallery_2 from "../assets/images/Store/Gallery2.jpg";
 import Gallery_3 from "../assets/images/Store/Gallery3.jpg";
 import Gallery_4 from "../assets/images/Store/Gallery4.jpg";
 import Gallery_5 from "../assets/images/Store/Gallery5.jpg";
-import Titleitemgs_1 from "../assets/images/List/LandingPage/Apple-watch.png";
+import Titleitemgs_1 from "../assets/images/List//LandingPage/Apple-watch.png";
 import Titleitemgs_2 from "../assets/images/List/LandingPage/airtag.png";
 import Titleitemgs_3 from "../assets/images/List/LandingPage/ipad.png";
 import Titleitemgs_4 from "../assets/images/List/LandingPage/iphone_1.png";
@@ -44,3 +44,16 @@ export const iconcrown = icon2;
 export const iconitem = icon3;
 export const iconshield = icon4;
 export const iconlike = icon5;
+
+export function formatCash(input) {
+  if (!Array.isArray(input) && typeof input !== "string") {
+    return input;
+  }
+  const cashArray = Array.isArray(input) ? input : input.split("");
+  if (cashArray.length === 0) {
+    return 0;
+  }
+  return cashArray.reverse().reduce((prev, next, index) => {
+    return (index % 3 ? next : next + ".") + prev;
+  }, "");
+}

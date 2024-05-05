@@ -1,52 +1,43 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import { banner1, banner2, banner3 } from "../../Utils";
+import { banner1, banner2, banner3 } from "../../Utils/utils";
 import "swiper/swiper-bundle.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import { formatCash } from "../../Utils/utils";
+
 import "../ListProduct/ProductDetail.css";
 
-function formatCash(input) {
-  if (!Array.isArray(input) && typeof input !== "string") {
-    return input;
-  }
-  const cashArray = Array.isArray(input) ? input : input.split("");
-  if (cashArray.length === 0) {
-    return 0;
-  }
-  return cashArray.reverse().reduce((prev, next, index) => {
-    return (index % 3 ? next : next + ".") + prev;
-  }, "");
-}
-
+const ProductSpecs = React.lazy(() =>
+  import("./../../Components/ProductSpecs")
+);
+const ProductDetailSection = React.lazy(() =>
+  import("./../../Components/ProductDetailSection")
+);
 export default function ProductDetail() {
   const [headingData, setHeadingData] = useState(null);
-  const [initialized, setInitialized] = useState(false);
-
   const [descriptionData, setDescriptionData] = useState(null);
   const { Product, Detail } = useParams();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-
   const RomMin = searchParams.get("RomMin");
   const ColorDefault = searchParams.get("ColorDefault");
-
-  const [dataPhukien, setdataPhukien] = useState(null);
   const [DetailItem, setDetailItem] = useState(null);
-  // const [ProductDetailPricing, setProductPricingData] = useState(null);
-  const [moreDetail, setmoreDetail] = useState(null);
-  const [isLogged, setIsLogged] = useState(false);
-
-  const handleInit = () => {
-    setInitialized(true);
-  };
+  const [ComboPricing, setComboPricing] = useState(0);
+  const [TotalPricing, setTotalPricing] = useState(0);
+  const [OldPrice, setOldPrice] = useState(0);
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+
     const fetchData = async () => {
       try {
         const [DetailItemResponse, moreDetails] = await Promise.all([
@@ -57,7 +48,6 @@ export default function ProductDetail() {
         ]);
 
         setDetailItem(DetailItemResponse.data);
-        setmoreDetail(moreDetails.data);
         setHeadingData(moreDetails.data.headingData);
         setDescriptionData(moreDetails.data.descriptionData);
       } catch (error) {
@@ -88,7 +78,30 @@ export default function ProductDetail() {
     // Cập nhật DetailItem với ColorDefault mới
     setDetailItem(updatedDetailItem);
   };
-  console.log(DetailItem);
+  const handleItemClick = (value) => {
+    setComboPricing(value);
+  };
+  useEffect(() => {
+    const calculateTotalPrice = () => {
+      if (DetailItem && DetailItem.DataPricing) {
+        const matchedDetail = DetailItem.DataPricing.flatMap(
+          (item) => item.DetailCR
+        ).find((detail) => detail.Color_name === DetailItem.ColorDefault);
+
+        if (matchedDetail) {
+          const totalPrice =
+            ComboPricing + parseFloat(matchedDetail.price.toString());
+          const oldtotalPrice =
+            ComboPricing + parseFloat(matchedDetail.OldPrice);
+          setTotalPricing(totalPrice);
+          setOldPrice(oldtotalPrice);
+        }
+      }
+    };
+
+    calculateTotalPrice();
+  }, [ComboPricing, DetailItem]);
+  // console.log(DetailItem);
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
@@ -116,15 +129,16 @@ export default function ProductDetail() {
                   <Swiper
                     spaceBetween={50}
                     slidesPerView={1}
+                    modules={[Navigation, Pagination, Scrollbar, A11y]}
+                    navigation
                     onSlideChange={() => console.log("slide change")}
                     onSwiper={(swiper) => console.log(swiper)}
-                    onInit={handleInit}
                   >
                     <SwiperSlide className="swiper-slide">
                       <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
                         <img
                           className=""
-                          src="https://images.fpt.shop/unsafe/fit-in/576x430/filters:quality(90):fill(white)/fptshop.com.vn/Uploads/Originals/2023/9/20/638307989548944936_iphone-15-promax-xanh-1.jpg"
+                          src={require("../../assets/images/List/DetailItems/Iphone12/iPhone12_1.webp")}
                           alt={Product}
                         />
                       </picture>
@@ -163,10 +177,10 @@ export default function ProductDetail() {
                           >
                             <div className="box-price flex items-center">
                               <span className="text-[32px] leading-[40px] font-medium text-[#cb1c22]">
-                                {formatCash(matchedDetail.price.toString())}đ
+                                {formatCash(TotalPricing.toString())}đ
                               </span>
                               <strike className="text-promo text-[#939ca3] text-[24px] leading-8 pl-2 font-normal">
-                                {formatCash(matchedDetail.OldPrice)}đ
+                                {formatCash(OldPrice.toString())}đ
                               </strike>
                             </div>
                           </div>
@@ -184,6 +198,7 @@ export default function ProductDetail() {
                       DetailItem.DataPricing.map((item, index) => (
                         <a
                           href="# "
+                          DataCardwzc
                           key={index}
                           className={` flex-[1] inline-flex flex-col items-center py-[6px] px-0 transition-[all_.3s_ease] text-[#444b52] item ${
                             item.Rom === DetailItem.RomMin
@@ -222,10 +237,7 @@ export default function ProductDetail() {
                                 ) {
                                   return (
                                     <p className="text-[14px] leading-5 font-normal mb-0 text-[#444b52]">
-                                      {formatCash(
-                                        matchedDetail.price.toString()
-                                      )}
-                                      đ
+                                      {formatCash(TotalPricing.toString())}đ
                                     </p>
                                   );
                                 } else {
@@ -288,7 +300,14 @@ export default function ProductDetail() {
                   </div>
 
                   <div className="list flex flex-wrap gap-3">
-                    <div className="relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item active focus:border-[#4391fb]">
+                    <div
+                      onClick={() => handleItemClick(0)}
+                      className={`${
+                        ComboPricing === 0
+                          ? "item dataCombo active focus:border-[#4391fb]"
+                          : ""
+                      } relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden focus:border-[#4391fb]"`}
+                    >
                       <div className="item-row flex items-end">
                         <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
                           Bảo hành 1 năm cơ bản
@@ -298,116 +317,75 @@ export default function ProductDetail() {
                         <div className="item-row"></div>
                       </div>
                     </div>
-                    <div className="relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]">
+                    <div
+                      onClick={() => handleItemClick(500000)}
+                      className={`${
+                        ComboPricing === 500000
+                          ? "item dataCombo active focus:border-[#4391fb]"
+                          : ""
+                      } relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]`}
+                    >
                       <div className="item-row flex items-end">
                         <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
-                          Bảo hành 1 năm cơ bản
+                          Bảo hành 2 năm cơ bản
                         </span>
                       </div>
                       <div className="item-row flex items-end">
                         <span className="item-price text-[16px] leading-6 font-medium text-[#cb1c22]">
-                          +700.000đ
+                          +{formatCash("500000")}đ
                         </span>
                         <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
-                          2.000.000đ
+                          {formatCash("2000000")}đ
                         </strike>
                       </div>
                     </div>
-                    <div className="relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]">
+                    <div
+                      onClick={() => handleItemClick(700000)}
+                      className={`${
+                        ComboPricing === 700000
+                          ? "item dataCombo active focus:border-[#4391fb]"
+                          : ""
+                      } relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]`}
+                    >
                       <div className="item-row flex items-end">
                         <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
-                          Bảo hành 1 năm cơ bản
+                          Đặc quyền Đổi mới 12 tháng
                         </span>
                       </div>
                       <div className="item-row flex items-end">
                         <span className="item-price text-[16px] leading-6 font-medium text-[#cb1c22]">
-                          +700.000đ
+                          +{formatCash("700000")}đ
                         </span>
                         <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
-                          2.000.000đ
+                          {formatCash("2000000")}đ
                         </strike>
                       </div>
                     </div>
-                    <div className="relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]">
+                    <div
+                      onClick={() => handleItemClick(1200000)}
+                      className={`${
+                        ComboPricing === 1200000
+                          ? "item dataCombo active focus:border-[#4391fb]"
+                          : ""
+                      }relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]`}
+                    >
                       <div className="item-row flex items-end">
                         <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
-                          Bảo hành 1 năm cơ bản
+                          Bảo hành 2 năm + Đổi mới 12 tháng
                         </span>
                       </div>
                       <div className="item-row flex items-end">
                         <span className="item-price text-[16px] leading-6 font-medium text-[#cb1c22]">
-                          +700.000đ
+                          +{formatCash("1200000")}đ
                         </span>
                         <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
-                          2.000.000đ
+                          {formatCash("400000")}đ
                         </strike>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="block-promotion border-[1px] border-solid border-[#edeeef] rounded-sm mb-4 bg-[#f8f9fa]">
-                  <div className="block-promotion-box">
-                    <div className="block-promotion-head py-2 px-3 border-b-[1px] border-solid border-b-[#edeeef]">
-                      <div className="title text-[#32373d] text-[16px] font-medium leading-6 ">
-                        Ưu đãi ngay
-                      </div>
-                    </div>
-                    <div className="block-promotion-body py-2 px-0">
-                      <ul className="lstPv1 list-none">
-                        <li>
-                          <div className="radio ">
-                            <label
-                              data-pricediscountpv1={5600000}
-                              className="getDataPromoV1"
-                            >
-                              <input
-                                className="radio-input promoV1"
-                                type="radio"
-                                name="promotion"
-                                defaultValue={1}
-                                defaultChecked
-                              />
-                              <span className="radio-label">
-                                Giảm ngay 5,100,000đ khi mua màu Titan Xanh áp
-                                dụng đến 18/04 + Đặc quyền dành cho sinh viên -
-                                Giảm thêm 500,000đ áp dụng đến 30/04
-                              </span>
-                            </label>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div className="block-promotion-box block-promotion-more border-t-[1px] border-solid border-t-[#edeeef]">
-                      <div className="block-promotion-head p-0 border-b-0">
-                        <div className="title title-more inline-flex items-center justify-center bg-[#edeeef] py-1 px-3 text-[#32373d] text-[14px] font-medium leading-5 rounded-[0_0_4px_0]">
-                          Ưu đãi thêm
-                        </div>
-                      </div>
-                      <div className="block-promotion-body py-2 px-0">
-                        <ul className="list-none">
-                          <li className="flex items-center py-1 px-3">
-                            <i className="ic-check" />
-
-                            <div>
-                              <span className="flex-[1] ml-2 ">
-                                Đặc quyền hộp quà 1.500.000đ dành riêng cho 600
-                                khách hàng nhận hàng sớm tại cửa hàng.
-                              </span>
-                              <a
-                                href="https://fptshop.com.vn/tin-tuc/tin-khuyen-mai/f-studio-by-fpt-danh-tang-600-combo-phu-kien-cho-khach-hang-dat-truoc-iphone-15-series-162170"
-                                className="re-link ml-1 text-[#0664f9] bg-transparent m-0 p-0 text-full "
-                              >
-                                Xem chi tiết
-                              </a>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div className="combo-accessory mb-4 rounded-md border-[1px] border-solid border-[##edeeef] bg-[#f8f9fa] overflow-hidden"></div>
                 <div className="renderboxbtnNew block1">
                   <div className="action flex mb-4 mt-5 justify-center gap-4">
@@ -424,6 +402,17 @@ export default function ProductDetail() {
                       <div>TRẢ GÓP</div>
                     </a>
                   </div>
+                </div>
+                <div className="f-s-ui-14 text-center text-[14px] leading-[14px]">
+                  Gọi
+                  <a
+                    className="text-[#0664f9] inline-block relative font-medium px-[4px]"
+                    href="tel:18006601"
+                  >
+                    {" "}
+                    1800 6601{" "}
+                  </a>
+                  để được tư vấn mua hàng (Miễn phí)
                 </div>
               </div>
             </div>
@@ -463,11 +452,11 @@ export default function ProductDetail() {
                               />
                             </Link>
                             <div className="item__info grid gap-[8px]">
-                              <a href="/phu-kien/sac-20w-usb-c-power-adapter">
+                              <Link to={`/phu-kien/${Items.product_name}`}>
                                 <div className="item__name text-[18px] leading-6 font-medium text-[#32373d] overflow-hidden sm:text-[14px] sm:leading-5 sm:font-medium">
                                   {Items.product_name}
                                 </div>
-                              </a>
+                              </Link>
                               <div className="item__price flex items-center gap-2 sm:flex-col sm:items-start sm:gap-0">
                                 <div className="text text-primary text-[18px] leading-6 font-medium text-[#cb1c22] sm:text-[14px] sm:leading-5 sm:font-medium">
                                   {formatCash(Items.CaptionPrice)} đ
@@ -488,177 +477,14 @@ export default function ProductDetail() {
             </div>
           </div>
         </div>
-        <div className="detail__properties py-12 px-0">
-          <div className="halfsm:px-[10px] w-full max-w-[1200px] px-[12px] mx-auto ">
-            <div className="properties__detail">
-              <div className="properties">
-                <div className="halfsm:px-[10px] w-full max-w-[1200px] px-[12px] mx-auto ">
-                  <div className="flex flex-wrap justify-center mx-[calc(24px/-2)]">
-                    <div className="flex-[0_0_50%] max-w-[50%] md:flex-[0_0_100%] md:max-w-full">
-                      <div className="properties__detail">
-                        <div className="h4 text-[32px] leading-[40px] font-medium mb-4">
-                          Thông số kĩ thuật
-                        </div>
-                        {DetailItem && DetailItem.DataCard ? (
-                          DetailItem.DataCard.map((Items, index) => {
-                            return (
-                              <div
-                                key={index}
-                                className="block rounded-md shadow-[0_1px_4px_rgba(10,10,10,.15)] overflow-hidden"
-                              >
-                                <div className="card-body pt-5 px-5">
-                                  <table className="table border-collapse w-full bg-[#fff]">
-                                    <thead></thead>
-                                    <tbody key={index}>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          màn hình{" "}
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.screen}
-                                        </td>
-                                      </tr>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          Camera sau
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.camera_sau}
-                                        </td>
-                                      </tr>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          Camera selfie
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.camera_selfie}
-                                        </td>
-                                      </tr>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          RAM
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.Ram}
-                                        </td>
-                                      </tr>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          CPU
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.CPU}
-                                        </td>
-                                      </tr>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          Dung Lượng pin
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.DungLuongPin}
-                                        </td>
-                                      </tr>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          Thẻ Sim
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.TheSim}
-                                        </td>
-                                      </tr>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          Hệ điều hành
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.HĐH}
-                                        </td>
-                                      </tr>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          Xuất xứ
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.XuatXu}
-                                        </td>
-                                      </tr>
-                                      <tr className="bg-[#f8f9fa]">
-                                        <td className="w-[140px] border-[1px] border-solid border-[#edeeef] text-[#99a2aa] py-[10px] px-[16px] min-w-[124px]">
-                                          Thời gian ra mắt
-                                        </td>
-                                        <td className="min-w-[124px] text-[#444b52] py-[10px] px-4 border-[1px] border-solid border-[#edeeef]">
-                                          {Items.Thoigianramat}
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <div className="trigger py-4 px-0 text-center">
-                                    {" "}
-                                  </div>
-                                </div>
-                              </div>
-                            );
-                          })
-                        ) : (
-                          <p>Loading...</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="detail__post pt-[48px] px-0 pb-[64px] bg-[#fff] shadow-[0_1px_4px_rgba(10,10,10,.15)] relative z-[1]">
-          <div className="contai halfsm:px-[10px] w-full max-w-[1200px] px-[12px] mx-auto ">
-            <div className="row flex flex-wrap justify-center mr-[calc(24px/-2)] ml-[calc(24px/-2)]">
-              <div className="col-9 p-0 flex-[0_0_75%] max-w-[75%]">
-                <div className="content">
-                  {headingData &&
-                    headingData.map((Heading, index) => {
-                      return (
-                        <div key={index}>
-                          <p style={{ textAlign: "justify", marginBottom: 11 }}>
-                            <strong>{Heading.Heading_name}</strong>
-                          </p>
-                          <p style={{ marginBottom: 11, textAlign: "center" }}>
-                            <b>
-                              <img
-                                alt=""
-                                src={require(`../../assets/images/ImageProductDetail/${Heading.Image_heading}`)}
-                              />
-                            </b>
-                          </p>
-                        </div>
-                      );
-                    })}
-                  {descriptionData &&
-                    descriptionData.map((Desc, index) => {
-                      return (
-                        <div key={index}>
-                          <h3
-                            style={{ textAlign: "justify", marginBottom: 11 }}
-                          >
-                            <b>{Desc.Title}</b>
-                          </h3>
-                          <p style={{ textAlign: "justify", marginBottom: 11 }}>
-                            {Desc.Description}
-                          </p>
-                          <p style={{ marginBottom: 11, textAlign: "center" }}>
-                            <img
-                              alt="iPhone 15 Pro Max Khung titan cao cấp, nhẹ và bền bỉ"
-                              src={require(`../../assets/images/ImageProductDetail/Desc/${Desc.Image}`)}
-                            />
-                          </p>
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Suspense>
+          {/* Render other lazy-loaded components */}
+          <ProductSpecs DetailItem={DetailItem} />
+          <ProductDetailSection
+            headingData={headingData}
+            descriptionData={descriptionData}
+          />{" "}
+        </Suspense>
       </div>
     </div>
   );

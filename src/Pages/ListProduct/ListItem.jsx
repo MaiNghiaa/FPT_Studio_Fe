@@ -158,7 +158,7 @@ export default function ListItem() {
           </div>
         </main>
       </div>
-      <section className="footer__gallery bg-[#f8f9fa] text-white pb-[38px]">
+      <section className="footer__gallery bg-[#f8f9fa] text-[#32373d_!important] pb-[38px]">
         <FooterGallery />
       </section>
     </div>

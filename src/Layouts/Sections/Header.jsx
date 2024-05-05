@@ -1,8 +1,6 @@
 import React from "react";
-// import Image from "../../assets/Store/637961834239224907_fs1.jpg";
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faHouse } from '@awesome.me/kit-KIT_CODE/icons/classic/solid'
-import { imgLogo } from "../../Utils";
+
+import { imgLogo } from "./../../Utils/utils";
 import { Link } from "react-router-dom";
 
 export default function Header() {
@@ -12,7 +10,11 @@ export default function Header() {
         <div className="flex items-center justify-center w-full max-w-[1200px] px-[12px] mx-auto ">
           <div className="header-logo max-w-[276px] flex-auto">
             <a href="\">
-              <img src={imgLogo} alt="" className="" />
+              <img
+                src="https://fstudiobyfpt.com.vn/ContentV2/assets/img/logo-fstu-aar.png"
+                alt=""
+                className=""
+              />
             </a>
           </div>
           <div className="header-search flex-1 bg-[rgba(255,255,255,.15)] mx-[125.953px]">
@@ -103,8 +105,14 @@ export default function Header() {
               href="tel:+84123456789"
               className="text-[#fff] bg-[#0664f9] outline-none px-[12px] h-[28px] flex items-center justify-center"
             >
-              <i className="w-[16px] text-[16px]">*</i>
-              <span className="whitespace-nowrap">Gọi 1800 6601</span>
+              <img
+                className="small:w-[16px] small:h-[16px] small:text-[16px]  mx-[2px]"
+                src={require("../../assets/Icon/icons8-phone.png")}
+                alt=""
+              />
+              <span className="whitespace-nowrap small:inline-block hidden">
+                Gọi 1800 6601
+              </span>
             </a>
           </button>
         </div>
