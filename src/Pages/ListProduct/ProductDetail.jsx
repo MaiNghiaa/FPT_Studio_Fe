@@ -1,13 +1,24 @@
 import axios from "axios";
 import React, { useEffect, useState, Suspense } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import {
+  FreeMode,
+  Navigation,
+  Thumbs,
+  Pagination,
+  Scrollbar,
+  A11y,
+} from "swiper/modules";
 import { banner1, banner2, banner3 } from "../../Utils/utils";
 import "swiper/swiper-bundle.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+import "swiper/css/free-mode";
+
+import "swiper/css/thumbs";
+
 import "swiper/css/scrollbar";
 import { formatCash } from "../../Utils/utils";
 
@@ -31,6 +42,8 @@ export default function ProductDetail() {
   const [ComboPricing, setComboPricing] = useState(0);
   const [TotalPricing, setTotalPricing] = useState(0);
   const [OldPrice, setOldPrice] = useState(0);
+  const [DataImg, setDataImg] = useState(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
   useEffect(() => {
     window.scrollTo({
@@ -101,7 +114,8 @@ export default function ProductDetail() {
 
     calculateTotalPrice();
   }, [ComboPricing, DetailItem]);
-  // console.log(DetailItem);
+  console.log(DetailItem);
+
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
@@ -127,22 +141,60 @@ export default function ProductDetail() {
               <div className="slider-gallery top-[10px] sticky">
                 <div className="slider-gallery__main mb-3">
                   <Swiper
-                    spaceBetween={50}
-                    slidesPerView={1}
-                    modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    navigation
-                    onSlideChange={() => console.log("slide change")}
-                    onSwiper={(swiper) => console.log(swiper)}
+                    style={{
+                      "--swiper-navigation-color": "#cccccc",
+                      "--swiper-pagination-color": "#cb1c22",
+                      paddingBottom: "45px",
+                    }}
+                    spaceBetween={10}
+                    navigation={true}
+                    thumbs={{ swiper: thumbsSwiper }}
+                    modules={[FreeMode, Navigation, Thumbs, Pagination]}
+                    className="mySwiper2"
+                    pagination={true}
                   >
-                    <SwiperSlide className="swiper-slide">
-                      <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
-                        <img
-                          className=""
-                          src={require("../../assets/images/List/DetailItems/Iphone12/iPhone12_1.webp")}
-                          alt={Product}
-                        />
-                      </picture>
-                    </SwiperSlide>
+                    {DetailItem &&
+                      DetailItem.DataImg &&
+                      DetailItem.DataImg.map((img) => (
+                        <SwiperSlide
+                          className="swiper-slide"
+                          key={img.ProductID}
+                        >
+                          <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
+                            <img
+                              className=""
+                              src={require(`../../assets/images/List/DetailItems/${img.ImageURL}`)}
+                              alt={Product}
+                            />
+                          </picture>
+                        </SwiperSlide>
+                      ))}
+                  </Swiper>
+                  <Swiper
+                    onSwiper={setThumbsSwiper}
+                    spaceBetween={10}
+                    slidesPerView={7}
+                    freeMode={true}
+                    watchSlidesProgress={true}
+                    modules={[FreeMode, Navigation, Thumbs]}
+                    className="mySwiper"
+                  >
+                    {DetailItem &&
+                      DetailItem.DataImg &&
+                      DetailItem.DataImg.map((img) => (
+                        <SwiperSlide
+                          className="swiper-slide"
+                          key={img.ProductID}
+                        >
+                          <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
+                            <img
+                              className=""
+                              src={require(`../../assets/images/List/DetailItems/${img.ImageURL}`)}
+                              alt={Product}
+                            />
+                          </picture>
+                        </SwiperSlide>
+                      ))}
                   </Swiper>
                 </div>
               </div>
@@ -154,14 +206,17 @@ export default function ProductDetail() {
                 {/* {Cate_name} */}
                 {DetailItem && DetailItem.DetailCate ? (
                   <h1 className="text-[36px] leading-[48px] text-[32px] leading-8 font-medium mb-3">
-                    {DetailItem.DetailCate} {DetailItem.ColorDefault}{" "}
-                    {DetailItem.RomMin}
+                    {DetailItem.DetailCate}{" "}
+                    {DetailItem.ColorDefault == null
+                      ? " "
+                      : DetailItem.ColorDefault + " "}
+                    {DetailItem.RomMin == null ? " " : DetailItem.RomMin + " "}
                   </h1>
                 ) : (
                   <p>load</p>
                 )}
 
-                <div className="npi-border border-[#0664f9] px-3 pt-3 pb-6 border-solid round-[0px_0px_6px_6px]">
+                <div className="npi-border border-[#0664f9] px-3 pt-3 pb-6 border-solid rounded-[0px_0px_6px_6px]">
                   {DetailItem && DetailItem.DataPricing ? (
                     DetailItem.DataPricing.map((item, index) => {
                       const matchedDetail = item.DetailCR.find(
@@ -294,99 +349,105 @@ export default function ProductDetail() {
                     <p>Loading...</p>
                   )}
                 </div>
-                <div className="warranty mb-4">
-                  <div className="title text-[16px] leading-6 font-medium text-[#32373d] mb-1">
-                    Chọn gói bảo hành
-                  </div>
+                {DetailItem && DetailItem.category === "iphone" ? (
+                  <div>
+                    <div className="warranty mb-4">
+                      <div className="title text-[16px] leading-6 font-medium text-[#32373d] mb-1">
+                        Chọn gói bảo hành
+                      </div>
 
-                  <div className="list flex flex-wrap gap-3">
-                    <div
-                      onClick={() => handleItemClick(0)}
-                      className={`${
-                        ComboPricing === 0
-                          ? "item dataCombo active focus:border-[#4391fb]"
-                          : ""
-                      } relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden focus:border-[#4391fb]"`}
-                    >
-                      <div className="item-row flex items-end">
-                        <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
-                          Bảo hành 1 năm cơ bản
-                        </span>
-                      </div>
-                      <div className="item-row flex items-end">
-                        <div className="item-row"></div>
+                      <div className="list flex flex-wrap gap-3">
+                        <div
+                          onClick={() => handleItemClick(0)}
+                          className={`${
+                            ComboPricing === 0
+                              ? "item dataCombo active focus:border-[#4391fb]"
+                              : ""
+                          } relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden focus:border-[#4391fb]"`}
+                        >
+                          <div className="item-row flex items-end">
+                            <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
+                              Bảo hành 1 năm cơ bản
+                            </span>
+                          </div>
+                          <div className="item-row flex items-end">
+                            <div className="item-row"></div>
+                          </div>
+                        </div>
+                        <div
+                          onClick={() => handleItemClick(500000)}
+                          className={`${
+                            ComboPricing === 500000
+                              ? "item dataCombo active focus:border-[#4391fb]"
+                              : ""
+                          } relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]`}
+                        >
+                          <div className="item-row flex items-end">
+                            <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
+                              Bảo hành 2 năm cơ bản
+                            </span>
+                          </div>
+                          <div className="item-row flex items-end">
+                            <span className="item-price text-[16px] leading-6 font-medium text-[#cb1c22]">
+                              +{formatCash("500000")}đ
+                            </span>
+                            <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
+                              {formatCash("2000000")}đ
+                            </strike>
+                          </div>
+                        </div>
+                        <div
+                          onClick={() => handleItemClick(700000)}
+                          className={`${
+                            ComboPricing === 700000
+                              ? "item dataCombo active focus:border-[#4391fb]"
+                              : ""
+                          } relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]`}
+                        >
+                          <div className="item-row flex items-end">
+                            <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
+                              Đặc quyền Đổi mới 12 tháng
+                            </span>
+                          </div>
+                          <div className="item-row flex items-end">
+                            <span className="item-price text-[16px] leading-6 font-medium text-[#cb1c22]">
+                              +{formatCash("700000")}đ
+                            </span>
+                            <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
+                              {formatCash("2000000")}đ
+                            </strike>
+                          </div>
+                        </div>
+                        <div
+                          onClick={() => handleItemClick(1200000)}
+                          className={`${
+                            ComboPricing === 1200000
+                              ? "item dataCombo active focus:border-[#4391fb]"
+                              : ""
+                          }relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]`}
+                        >
+                          <div className="item-row flex items-end">
+                            <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
+                              Bảo hành 2 năm + Đổi mới 12 tháng
+                            </span>
+                          </div>
+                          <div className="item-row flex items-end">
+                            <span className="item-price text-[16px] leading-6 font-medium text-[#cb1c22]">
+                              +{formatCash("1200000")}đ
+                            </span>
+                            <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
+                              {formatCash("400000")}đ
+                            </strike>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div
-                      onClick={() => handleItemClick(500000)}
-                      className={`${
-                        ComboPricing === 500000
-                          ? "item dataCombo active focus:border-[#4391fb]"
-                          : ""
-                      } relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]`}
-                    >
-                      <div className="item-row flex items-end">
-                        <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
-                          Bảo hành 2 năm cơ bản
-                        </span>
-                      </div>
-                      <div className="item-row flex items-end">
-                        <span className="item-price text-[16px] leading-6 font-medium text-[#cb1c22]">
-                          +{formatCash("500000")}đ
-                        </span>
-                        <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
-                          {formatCash("2000000")}đ
-                        </strike>
-                      </div>
-                    </div>
-                    <div
-                      onClick={() => handleItemClick(700000)}
-                      className={`${
-                        ComboPricing === 700000
-                          ? "item dataCombo active focus:border-[#4391fb]"
-                          : ""
-                      } relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]`}
-                    >
-                      <div className="item-row flex items-end">
-                        <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
-                          Đặc quyền Đổi mới 12 tháng
-                        </span>
-                      </div>
-                      <div className="item-row flex items-end">
-                        <span className="item-price text-[16px] leading-6 font-medium text-[#cb1c22]">
-                          +{formatCash("700000")}đ
-                        </span>
-                        <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
-                          {formatCash("2000000")}đ
-                        </strike>
-                      </div>
-                    </div>
-                    <div
-                      onClick={() => handleItemClick(1200000)}
-                      className={`${
-                        ComboPricing === 1200000
-                          ? "item dataCombo active focus:border-[#4391fb]"
-                          : ""
-                      }relative flex flex-col justify-center py-1 px-2 rounded-md border-[1px] border-solid border-[#e1e4e6] basis-[calc(100%/2-6px)] cursor-pointer overflow-hidden item focus:border-[#4391fb]`}
-                    >
-                      <div className="item-row flex items-end">
-                        <span className="txt font-medium text-[14px] leading-[20px] text-[#444b52]">
-                          Bảo hành 2 năm + Đổi mới 12 tháng
-                        </span>
-                      </div>
-                      <div className="item-row flex items-end">
-                        <span className="item-price text-[16px] leading-6 font-medium text-[#cb1c22]">
-                          +{formatCash("1200000")}đ
-                        </span>
-                        <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
-                          {formatCash("400000")}đ
-                        </strike>
-                      </div>
-                    </div>
+                    <div className="combo-accessory mb-4 rounded-md border-[1px] border-solid border-[##edeeef] bg-[#f8f9fa] overflow-hidden"></div>
                   </div>
-                </div>
+                ) : (
+                  " "
+                )}
 
-                <div className="combo-accessory mb-4 rounded-md border-[1px] border-solid border-[##edeeef] bg-[#f8f9fa] overflow-hidden"></div>
                 <div className="renderboxbtnNew block1">
                   <div className="action flex mb-4 mt-5 justify-center gap-4">
                     <a
@@ -478,12 +539,14 @@ export default function ProductDetail() {
           </div>
         </div>
         <Suspense>
-          {/* Render other lazy-loaded components */}
-          <ProductSpecs DetailItem={DetailItem} />
-          <ProductDetailSection
-            headingData={headingData}
-            descriptionData={descriptionData}
-          />{" "}
+          <>
+            {/* Render other lazy-loaded components */}
+            <ProductSpecs DetailItem={DetailItem} />
+            <ProductDetailSection
+              headingData={headingData}
+              descriptionData={descriptionData}
+            />
+          </>
         </Suspense>
       </div>
     </div>
