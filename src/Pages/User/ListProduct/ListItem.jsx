@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "../ListProduct/ListItem.css";
-import FooterGallery from "../../Layouts/Sections/Footer/FooterGallery";
+import "./ListItem.css";
+import FooterGallery from "../../../Layouts/Sections/Footer/FooterGallery";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -10,7 +10,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import ProductItem from "../../Components/ProductItem";
+import ProductItem from "../../../Components/User/ProductItem";
 // Swiper.use([Navigation, Pagination, Scrollbar]);
 export default function ListItem() {
   const [value, setValue] = React.useState("react");

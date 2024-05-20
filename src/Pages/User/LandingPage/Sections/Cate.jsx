@@ -1,14 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import "../Sections/Cate.css";
+import "./Cate.css";
 import {
   Titleitemgs1,
   Titleitemgs2,
   Titleitemgs3,
   Titleitemgs4,
   Titleitemgs5,
-} from "./../../../Utils/utils";
+} from "../../../../Utils/utils";
 export default function Cate() {
   return (
     <div className="List-cate flex gap-6 items-baseline">

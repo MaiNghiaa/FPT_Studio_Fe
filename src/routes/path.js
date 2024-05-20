@@ -5,3 +5,5 @@ export const PATH_NEWS = "/tin-tuc";
 export const PATH_EVENTS = "/Today";
 export const PATH_FCARE = "/fcare";
 export const PATH_KHUYENMAI = "/khuyen-mai";
+export const PATH_CART = "/cart";
+export const PATH_ADMIN = "/ADMIN";

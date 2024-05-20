@@ -2,11 +2,11 @@ import React from "react";
 import Banner from "./Sections/Banner";
 import Cate from "./Sections/Cate";
 import News from "./Sections/News";
-import FooterGallery from "../../Layouts/Sections/Footer/FooterGallery";
+import FooterGallery from "../../../Layouts/Sections/Footer/FooterGallery";
 // Import images using require
-const banner1 = require("../../Utils/utils").banner1;
-const banner2 = require("../../Utils/utils").banner2;
-const banner3 = require("../../Utils/utils").banner3;
+const banner1 = require("../../../Utils/utils").banner1;
+const banner2 = require("../../../Utils/utils").banner2;
+const banner3 = require("../../../Utils/utils").banner3;
 
 export default function LandingPage() {
   return (

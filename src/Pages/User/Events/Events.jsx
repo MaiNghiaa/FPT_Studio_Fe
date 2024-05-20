@@ -30,7 +30,7 @@ export default function Events() {
             >
               <div className="img-item w-full max-w-[776px] mr-6">
                 <img
-                  src={require("../../assets/images/List/Workshop/638421230734784211_z5095081155166_1c230713c6cc56625471874a5268384e.webp")}
+                  src={require("../../../assets/images/List/Workshop/638421230734784211_z5095081155166_1c230713c6cc56625471874a5268384e.webp")}
                   alt=""
                   className="w-[376px] h-[211.44px] object-cover border-none"
                 />
@@ -73,7 +73,7 @@ export default function Events() {
               >
                 <div className="img-item w-full max-w-[776px] mr-6">
                   <img
-                    src={require("../../assets/images/List/Workshop/WS2.webp")}
+                    src={require("../../../assets/images/List/Workshop/WS2.webp")}
                     alt=""
                     className="w-[376px] h-[211.44px] object-cover border-none"
                   />
@@ -106,7 +106,7 @@ export default function Events() {
               >
                 <div className="img-item w-full max-w-[776px] mr-6">
                   <img
-                    src={require("../../assets/images/List/Workshop/WS3.webp")}
+                    src={require("../../../assets/images/List/Workshop/WS3.webp")}
                     alt=""
                     className="w-[376px] h-[211.44px] object-cover border-none"
                   />
@@ -139,7 +139,7 @@ export default function Events() {
               >
                 <div className="img-item w-full max-w-[776px] mr-6">
                   <img
-                    src={require("../../assets/images/List/Workshop/WS2.webp")}
+                    src={require("../../../assets/images/List/Workshop/WS2.webp")}
                     alt=""
                     className="w-[376px] h-[211.44px] object-cover border-none"
                   />

@@ -9,7 +9,7 @@ import {
   Scrollbar,
   A11y,
 } from "swiper/modules";
-import { banner1, banner2, banner3 } from "../../Utils/utils";
+import { banner1, banner2, banner3 } from "../../../Utils/utils";
 import "swiper/swiper-bundle.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -20,15 +20,15 @@ import "swiper/css/free-mode";
 import "swiper/css/thumbs";
 
 import "swiper/css/scrollbar";
-import { formatCash } from "../../Utils/utils";
+import { formatCash } from "../../../Utils/utils";
 
-import "../ListProduct/ProductDetail.css";
+import "./ProductDetail.css";
 
 const ProductSpecs = React.lazy(() =>
-  import("./../../Components/ProductSpecs")
+  import("../../../Components/User/ProductSpecs")
 );
 const ProductDetailSection = React.lazy(() =>
-  import("./../../Components/ProductDetailSection")
+  import("../../../Components/User/ProductDetailSection")
 );
 export default function ProductDetail() {
   const [headingData, setHeadingData] = useState(null);
@@ -163,7 +163,7 @@ export default function ProductDetail() {
                           <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
                             <img
                               className=""
-                              src={require(`../../assets/images/List/DetailItems/${img.ImageURL}`)}
+                              src={require(`../../../assets/images/List/DetailItems/${img.ImageURL}`)}
                               alt={Product}
                             />
                           </picture>
@@ -189,7 +189,7 @@ export default function ProductDetail() {
                           <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
                             <img
                               className=""
-                              src={require(`../../assets/images/List/DetailItems/${img.ImageURL}`)}
+                              src={require(`../../../assets/images/List/DetailItems/${img.ImageURL}`)}
                               alt={Product}
                             />
                           </picture>
@@ -450,18 +450,19 @@ export default function ProductDetail() {
 
                 <div className="renderboxbtnNew block1">
                   <div className="action flex mb-4 mt-5 justify-center gap-4">
-                    <a
-                      href=" "
+                    <Link
+                      to="/Cart"
                       className="btn inline-flex items-center justify-center flex-col transition-[all_.3s_cubic-bezier(0,0,.4,1)] px-8 border-[1px] border-transparent flex-[1] max-w-[576px] h-[56px] text-[#ffffff] bg-[#0664f9] text-[20px] leading-[20px] rounded-md hover:bg-[#044dd6] hover:border-[#044dd6]"
                     >
                       <div>MUA NGAY</div>
-                    </a>
-                    <a
-                      href=" "
+                    </Link>
+
+                    <Link
+                      to="/Cart"
                       className="flex items-center justify-center flex-col transition-[all_.3s_cubic-bezier(0,0,.4,1)] px-8 border-[1px] flex-[1] max-w-[576px] h-[56px] text-[#6a737a] bg-[#fff] text-[20px] leading-[20px] rounded-md border-[#cbd1d6] hover:bg-[#939ca3] hover:border-[#939ca3] hover:text-[#fff]"
                     >
                       <div>TRẢ GÓP</div>
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="f-s-ui-14 text-center text-[14px] leading-[14px]">
@@ -508,7 +509,7 @@ export default function ProductDetail() {
                             >
                               <img
                                 className="h-full w-auto"
-                                src={require(`../../assets/images/List/Items/${Items.image_caption_URL}`)}
+                                src={require(`../../../assets/images/List/Items/${Items.image_caption_URL}`)}
                                 alt=""
                               />
                             </Link>

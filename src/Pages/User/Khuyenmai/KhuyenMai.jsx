@@ -7,7 +7,7 @@ export default function KhuyenMai() {
       {" "}
       {/* Sử dụng lớp CSS để thiết lập hình nền */}
       <img
-        src={require("../../assets/ErrorUpdate/Update.gif")}
+        src={require("../../../assets/ErrorUpdate/Update.gif")}
         alt=""
         className="fullscreen-bg__img"
       />

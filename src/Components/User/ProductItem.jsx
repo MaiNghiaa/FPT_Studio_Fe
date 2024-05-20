@@ -36,7 +36,8 @@ const ProductItem = React.memo(function ProductItem({
         >
           <img
             className="w-[307px] h-[240px] object-contain transition-[all_.3s_ease]"
-            src={require(`../assets/images/List/Items/${product.image_caption_URL}`)}
+            src={require(`./../../assets/images/List/Items/${product.image_caption_URL}`)}
+            // /images/List/Items/
             alt=""
           />
         </Link>
@@ -79,7 +80,7 @@ const ProductItem = React.memo(function ProductItem({
       <div className="product-item-detail flex flex-[1] mt-4 justify-center items-start">
         <Link
           to={`/${type}/${product.product_name}?RomMin=${MinRom}&ColorDefault=${ColorDefault}`}
-          className="w-[176px] text-[#6a737a] border border-[#cbd1d6] bg-[#ffffff] h-[32px] px-[12px] text-[16px] leading-4 inline-flex items-center justify-center flex-col select-none transition-[all_.3s_cubic-bezier(0,0,.4,1)] pointer"
+          className="w-[176px] text-[#6a737a] border border-[#cbd1d6] bg-[#ffffff] h-[32px] px-[12px] text-[16px] leading-4 inline-flex items-center justify-center flex-col select-none transition-[all_.3s_cubic-bezier(0,0,.4,1)] pointer self-end mb-[46px]"
         >
           XEM CHI TIẾT
         </Link>
