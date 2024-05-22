@@ -24,6 +24,8 @@ import { formatCash } from "../../../Utils/utils";
 
 import "./ProductDetail.css";
 
+// const { fetchData } = require("./api");
+
 const ProductSpecs = React.lazy(() =>
   import("../../../Components/User/ProductSpecs")
 );
