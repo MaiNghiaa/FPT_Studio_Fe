@@ -9,16 +9,18 @@ import {
   PATH_FCARE,
   PATH_EVENTS,
   PATH_KHUYENMAI,
+  PATH_ADMIN,
+  PATH_CART,
 } from "./path";
-import LandingPage from "../Pages/LandingPage/LandingPage";
-import ListProduct from "../Pages/ListProduct/ListItem";
-import ProductDetail from "../Pages/ListProduct/ProductDetail";
-
-import Events from "../Pages/Events/Events";
-import Fcare from "../Pages/Fcare/Fcare";
-import Tintuc from "../Pages/Tintuc/Tintuc";
-import KhuyenMai from "../Pages/Khuyenmai/KhuyenMai";
-
+import LandingPage from "../Pages/User/LandingPage/LandingPage";
+import ListProduct from "../Pages/User/ListProduct/ListItem";
+import ProductDetail from "../Pages/User/ListProduct/ProductDetail";
+import Events from "../Pages/User/Events/Events";
+import Fcare from "../Pages/User/Fcare/Fcare";
+import Tintuc from "../Pages/User/Tintuc/Tintuc";
+import KhuyenMai from "../Pages/User/Khuyenmai/KhuyenMai";
+import Admin from "../Pages/Admin/Layouts/Admin";
+import Cart from "../Pages/User/Thanhtoan/Cart";
 export const normalRoutes = [PATH_HOME];
 export const authRoutes = [];
 
@@ -46,6 +48,7 @@ function Router() {
       ),
       children: [
         { path: PATH_HOME, element: <LandingPage /> },
+        { path: PATH_CART, element: <Cart /> },
         { path: `${PATH_PRODUCT}`, element: <ListProduct /> },
         {
           path: PATH_PRODUCT_DETAIL,

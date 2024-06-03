@@ -4,23 +4,20 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/navigation";
+import "swiper/css/effect-coverflow";
 import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import "swiper/css/effect-fade";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import { EffectCoverflow, Pagination } from "swiper/modules";
 import {
   Gallery1,
   Gallery2,
   Gallery3,
   Gallery4,
   Gallery5,
-  iconBox,
-  iconitem,
-  iconcrown,
-  iconshield,
-  iconlike,
-} from "../../../Utils";
+} from "./../../../Utils/utils";
 export default function FooterGallery() {
   return (
     <div className="footer__gallery-inner">
@@ -31,12 +28,19 @@ export default function FooterGallery() {
       </div>
       <div className="footer__gallery-main">
         <Swiper
-          modules={[Navigation, Pagination, Scrollbar, A11y]}
+          effect={"coverflow"}
           spaceBetween={40}
           slidesPerView={3}
-          navigation
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
+          grabCursor={true}
+          centeredSlides={true}
+          coverflowEffect={{
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          }}
+          modules={[EffectCoverflow, Pagination]}
+          className="mySwiper"
         >
           <SwiperSlide>
             <img src={Gallery1} alt="" />
