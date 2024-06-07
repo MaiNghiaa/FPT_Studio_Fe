@@ -33,6 +33,7 @@ export default function ProductDetail() {
   const [DetailItem, setDetailItem] = useState(null);
   const [ComboPricing, setComboPricing] = useState(0);
   const [OldComboPricing, setOldComboPricing] = useState(0);
+  const [ColorPick, setColorPick] = useState();
   const [NameComboPricing, setNameComboPricing] = useState(
     "Bảo hành 1 năm cơ bản"
   );
@@ -61,6 +62,7 @@ export default function ProductDetail() {
         setDetailItem(DetailItemResponse.data);
         setHeadingData(moreDetails.data.headingData);
         setDescriptionData(moreDetails.data.descriptionData);
+        setColorPick(ColorDefault);
       } catch (error) {
         console.error("There was an error!", error);
       }
@@ -70,13 +72,13 @@ export default function ProductDetail() {
   }, []);
 
   const handleColorClick = (colorName) => {
-    // Tạo một bản sao của DetailItem với ColorDefault mới
+    setColorPick(colorName);
+
     const updatedDetailItem = {
       ...DetailItem,
       ColorDefault: colorName,
     };
 
-    // Cập nhật DetailItem với ColorDefault mới
     setDetailItem(updatedDetailItem);
   };
   const handleRomClick = (RomName) => {
@@ -118,18 +120,21 @@ export default function ProductDetail() {
     setTotalQuantity(total);
     localStorage.setItem("totalQuantity", total);
   }, []);
-  const handleBuy = (e, totalPrice, rom) => {
+  const handleBuy = (e, totalPrice, rom, ImgURL) => {
     e.preventDefault();
+    console.log(ColorPick);
     let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     let found = false;
-
+    // const imgURL = document.getElementById("#imgURL").value;
     // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
     for (let i = 0; i < cartItems.length; i++) {
       if (
         cartItems[i].detail === Detail &&
         cartItems[i].rom === rom &&
         cartItems[i].comboPricing === ComboPricing &&
-        cartItems[i].nameComboPricing === NameComboPricing
+        cartItems[i].nameComboPricing === NameComboPricing &&
+        cartItems[i].ImgURL === ImgURL &&
+        cartItems[i].ColorPick === ColorPick
       ) {
         cartItems[i].quantity += 1;
         found = true;
@@ -143,6 +148,8 @@ export default function ProductDetail() {
         totalPrice: totalPrice,
         oldPrice: OldPrice,
         rom: rom,
+        ImgURL: ImgURL,
+        ColorPick: ColorPick,
         oldComboPricing: OldComboPricing,
         comboPricing: ComboPricing,
         nameComboPricing: NameComboPricing,
@@ -161,7 +168,7 @@ export default function ProductDetail() {
 
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
-
+  // console.log(DetailItem);
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
@@ -210,6 +217,12 @@ export default function ProductDetail() {
                               alt={Product}
                             />
                           </picture>
+                          {/* <input
+                            type="text"
+                            id="imgURL"
+                            hidden
+                            value={`http://localhost:3000/assets/${img.ImageURL}`}
+                          /> */}
                         </SwiperSlide>
                       ))}
                   </Swiper>
@@ -366,9 +379,9 @@ export default function ProductDetail() {
                                       ? "border-[#4391fb] border-[2px] rounded-[6px]"
                                       : "border-[#edeeef]"
                                   }`}
-                                  onClick={() =>
-                                    handleColorClick(detail.Color_name)
-                                  }
+                                  onClick={() => {
+                                    handleColorClick(detail.Color_name);
+                                  }}
                                 >
                                   <span
                                     style={{
@@ -512,7 +525,12 @@ export default function ProductDetail() {
                   <div className="action flex mb-4 mt-5 justify-center gap-4">
                     <button
                       onClick={(e) =>
-                        handleBuy(e, TotalPricing, DetailItem.RomMin)
+                        handleBuy(
+                          e,
+                          TotalPricing,
+                          DetailItem.RomMin,
+                          DetailItem.CaptionImg[0].image_caption_URL
+                        )
                       }
                       className="btn inline-flex items-center justify-center flex-col transition-[all_.3s_cubic-bezier(0,0,.4,1)] px-8 border-[1px] border-transparent flex-[1] max-w-[576px] h-[56px] text-[#ffffff] bg-[#0664f9] text-[20px] leading-[20px] rounded-md hover:bg-[#044dd6] hover:border-[#044dd6]"
                     >

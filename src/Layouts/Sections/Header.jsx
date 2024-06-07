@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
+  const navigate = useNavigate();
+  const Cart = () => {
+    navigate("/cart");
+  };
+  const Donmua = () => {
+    navigate("/dondadat");
+  };
   return (
     <div className="Header small:max-w-[640px] small:w-full small:m-auto small:relative">
       <div className="Header_top bg-black py-5">
@@ -31,16 +38,18 @@ export default function Header() {
             </form>
           </div>
           <div className="header-cart flex-1  inline-flex items-center text-[#e1e4e6] py-[10px] pl-[24px] ">
-            <div className="relative w-[30px] h-[30px] block">
+            <div className="relative w-[30px] h-[30px] block" onClick={Cart}>
               <img
                 src={`http://localhost:3000/assets/Icon/shopping-cart.png`}
                 alt="Shopping Cart"
                 className="w-full h-full"
               />
             </div>
-            <p className="text-[14px] leading-5 ml-2 small:invisible small:hidden">
-              Giỏ hàng của bạn
-            </p>
+            <div onClick={Donmua}>
+              <p className="text-[14px] leading-5 ml-2 small:invisible small:hidden">
+                Đơn mua
+              </p>
+            </div>
           </div>
         </div>
       </div>
