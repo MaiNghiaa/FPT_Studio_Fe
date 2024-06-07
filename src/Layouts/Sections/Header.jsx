@@ -1,6 +1,5 @@
 import React from "react";
 
-import { imgLogo } from "./../../Utils/utils";
 import { Link } from "react-router-dom";
 
 export default function Header() {
@@ -34,7 +33,7 @@ export default function Header() {
           <div className="header-cart flex-1  inline-flex items-center text-[#e1e4e6] py-[10px] pl-[24px] ">
             <div className="w-[30px] h-[30]px block ">
               <img
-                src={require("../../assets/Icon/shopping-cart.png")}
+                src={`http://localhost:3000/assets/Icon/shopping-cart.png`}
                 alt=""
               />
             </div>
@@ -107,7 +106,7 @@ export default function Header() {
             >
               <img
                 className="small:w-[16px] small:h-[16px] small:text-[16px]  mx-[2px]"
-                src={require("../../assets/Icon/icons8-phone.png")}
+                src={`http://localhost:3000/assets/Icon/icons8-phone.png`}
                 alt=""
               />
               <span className="whitespace-nowrap small:inline-block hidden">

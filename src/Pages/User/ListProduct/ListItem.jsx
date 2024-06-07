@@ -45,7 +45,7 @@ export default function ListItem() {
   };
   useEffect(() => {
     if (Product) {
-      console.log(Product);
+      // console.log(Product);
       setLinkto(Product);
       axios
         .get(`http://localhost:3000/${Product}`)
@@ -58,7 +58,6 @@ export default function ListItem() {
         });
     }
   }, []); //Chi fetch API 1 lần
-
   // const navigationPrevRef = React.useRef(null);
   // const navigationNextRef = React.useRef(null);
 
@@ -77,7 +76,7 @@ export default function ListItem() {
         </ol>
 
         <h1 className="h1 text-center text-4xl leading-9 font-medium mb-8">
-          {Product}
+          {Product.replace("_", " ") || Product.replace("-", " ")}
         </h1>
         <main className="rounded-[6px] bg-[#ffffff] shadow-[0_1px_4px_rgba(10,10,10,.15)] block">
           <div>

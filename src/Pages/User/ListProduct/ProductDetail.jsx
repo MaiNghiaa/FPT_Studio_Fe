@@ -1,15 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState, Suspense } from "react";
 import { Link, useParams, useLocation } from "react-router-dom";
-import {
-  FreeMode,
-  Navigation,
-  Thumbs,
-  Pagination,
-  Scrollbar,
-  A11y,
-} from "swiper/modules";
-import { banner1, banner2, banner3 } from "../../../Utils/utils";
+import { FreeMode, Navigation, Thumbs, Pagination } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -23,8 +15,6 @@ import "swiper/css/scrollbar";
 import { formatCash } from "../../../Utils/utils";
 
 import "./ProductDetail.css";
-
-// const { fetchData } = require("./api");
 
 const ProductSpecs = React.lazy(() =>
   import("../../../Components/User/ProductSpecs")
@@ -42,6 +32,10 @@ export default function ProductDetail() {
   const ColorDefault = searchParams.get("ColorDefault");
   const [DetailItem, setDetailItem] = useState(null);
   const [ComboPricing, setComboPricing] = useState(0);
+  const [OldComboPricing, setOldComboPricing] = useState(0);
+  const [NameComboPricing, setNameComboPricing] = useState(
+    "Bảo hành 1 năm cơ bản"
+  );
   const [TotalPricing, setTotalPricing] = useState(0);
   const [OldPrice, setOldPrice] = useState(0);
   const [DataImg, setDataImg] = useState(null);
@@ -84,17 +78,16 @@ export default function ProductDetail() {
     setDetailItem(updatedDetailItem);
   };
   const handleRomClick = (RomName) => {
-    // Tạo một bản sao của DetailItem với ColorDefault mới
     const updatedDetailItem = {
       ...DetailItem,
       RomMin: RomName,
     };
-
-    // Cập nhật DetailItem với ColorDefault mới
     setDetailItem(updatedDetailItem);
   };
-  const handleItemClick = (value) => {
+  const handleItemClick = (value, oldvalue, name) => {
     setComboPricing(value);
+    setOldComboPricing(oldvalue);
+    setNameComboPricing(name);
   };
   useEffect(() => {
     const calculateTotalPrice = () => {
@@ -116,8 +109,20 @@ export default function ProductDetail() {
 
     calculateTotalPrice();
   }, [ComboPricing, DetailItem]);
-  console.log(DetailItem);
+  // console.log(DetailItem);
 
+  const handleBuy = (e, totalPrice, rom) => {
+    e.preventDefault();
+    console.log(Detail, ComboPricing, NameComboPricing);
+
+    console.log("Sanpham:", Detail);
+    console.log("Total Price mới :", totalPrice);
+    console.log("Total Price cũ:", OldPrice);
+    console.log("ROM:", rom);
+    console.log("GiáComboCu", OldComboPricing);
+    console.log("GiáCombomoi", ComboPricing);
+    console.log("tencombo", NameComboPricing);
+  };
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
@@ -157,15 +162,12 @@ export default function ProductDetail() {
                   >
                     {DetailItem &&
                       DetailItem.DataImg &&
-                      DetailItem.DataImg.map((img) => (
-                        <SwiperSlide
-                          className="swiper-slide"
-                          key={img.ProductID}
-                        >
+                      DetailItem.DataImg.map((img, index) => (
+                        <SwiperSlide className="swiper-slide" key={index}>
                           <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
                             <img
                               className=""
-                              src={require(`../../../assets/images/List/DetailItems/${img.ImageURL}`)}
+                              src={`http://localhost:3000/assets/${img.ImageURL}`}
                               alt={Product}
                             />
                           </picture>
@@ -183,15 +185,12 @@ export default function ProductDetail() {
                   >
                     {DetailItem &&
                       DetailItem.DataImg &&
-                      DetailItem.DataImg.map((img) => (
-                        <SwiperSlide
-                          className="swiper-slide"
-                          key={img.ProductID}
-                        >
+                      DetailItem.DataImg.map((img, index) => (
+                        <SwiperSlide className="swiper-slide" key={index}>
                           <picture className="block overflow-hidden relative w-full pt-[calc((.74653*100%)+0px)]">
                             <img
                               className=""
-                              src={require(`../../../assets/images/List/DetailItems/${img.ImageURL}`)}
+                              src={`http://localhost:3000/assets/${img.ImageURL}`}
                               alt={Product}
                             />
                           </picture>
@@ -360,7 +359,9 @@ export default function ProductDetail() {
 
                       <div className="list flex flex-wrap gap-3">
                         <div
-                          onClick={() => handleItemClick(0)}
+                          onClick={() =>
+                            handleItemClick(0, 0, "Bảo hành 1 năm cơ bản")
+                          }
                           className={`${
                             ComboPricing === 0
                               ? "item dataCombo active focus:border-[#4391fb]"
@@ -377,7 +378,13 @@ export default function ProductDetail() {
                           </div>
                         </div>
                         <div
-                          onClick={() => handleItemClick(500000)}
+                          onClick={() =>
+                            handleItemClick(
+                              500000,
+                              2000000,
+                              "Bảo hành 2 năm cơ bản"
+                            )
+                          }
                           className={`${
                             ComboPricing === 500000
                               ? "item dataCombo active focus:border-[#4391fb]"
@@ -399,7 +406,13 @@ export default function ProductDetail() {
                           </div>
                         </div>
                         <div
-                          onClick={() => handleItemClick(700000)}
+                          onClick={() =>
+                            handleItemClick(
+                              700000,
+                              2000000,
+                              "Đặc quyền Đổi mới 12 tháng"
+                            )
+                          }
                           className={`${
                             ComboPricing === 700000
                               ? "item dataCombo active focus:border-[#4391fb]"
@@ -421,7 +434,13 @@ export default function ProductDetail() {
                           </div>
                         </div>
                         <div
-                          onClick={() => handleItemClick(1200000)}
+                          onClick={() =>
+                            handleItemClick(
+                              1200000,
+                              4000000,
+                              "Bảo hành 2 năm + Đổi mới 12 tháng"
+                            )
+                          }
                           className={`${
                             ComboPricing === 1200000
                               ? "item dataCombo active focus:border-[#4391fb]"
@@ -438,7 +457,7 @@ export default function ProductDetail() {
                               +{formatCash("1200000")}đ
                             </span>
                             <strike className="text-[14px] leading-5 ml-2 py-[2px] px-0">
-                              {formatCash("400000")}đ
+                              {formatCash("4000000")}đ
                             </strike>
                           </div>
                         </div>
@@ -452,12 +471,14 @@ export default function ProductDetail() {
 
                 <div className="renderboxbtnNew block1">
                   <div className="action flex mb-4 mt-5 justify-center gap-4">
-                    <Link
-                      to="/Cart"
+                    <button
+                      onClick={(e) =>
+                        handleBuy(e, TotalPricing, DetailItem.RomMin)
+                      }
                       className="btn inline-flex items-center justify-center flex-col transition-[all_.3s_cubic-bezier(0,0,.4,1)] px-8 border-[1px] border-transparent flex-[1] max-w-[576px] h-[56px] text-[#ffffff] bg-[#0664f9] text-[20px] leading-[20px] rounded-md hover:bg-[#044dd6] hover:border-[#044dd6]"
                     >
                       <div>MUA NGAY</div>
-                    </Link>
+                    </button>
 
                     <Link
                       to="/Cart"
@@ -511,7 +532,7 @@ export default function ProductDetail() {
                             >
                               <img
                                 className="h-full w-auto"
-                                src={require(`../../../assets/images/List/Items/${Items.image_caption_URL}`)}
+                                src={`http://localhost:3000/assets/${Items.image_caption_URL}`}
                                 alt=""
                               />
                             </Link>
