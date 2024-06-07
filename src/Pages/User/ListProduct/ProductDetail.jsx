@@ -113,16 +113,42 @@ export default function ProductDetail() {
 
   const handleBuy = (e, totalPrice, rom) => {
     e.preventDefault();
-    console.log(Detail, ComboPricing, NameComboPricing);
+    let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    let found = false;
 
-    console.log("Sanpham:", Detail);
-    console.log("Total Price mới :", totalPrice);
-    console.log("Total Price cũ:", OldPrice);
-    console.log("ROM:", rom);
-    console.log("GiáComboCu", OldComboPricing);
-    console.log("GiáCombomoi", ComboPricing);
-    console.log("tencombo", NameComboPricing);
+    // Kiểm tra xem sản phẩm đã tồn tại trong giỏ hàng chưa
+    for (let i = 0; i < cartItems.length; i++) {
+      if (
+        cartItems[i].detail === Detail &&
+        cartItems[i].rom === rom &&
+        cartItems[i].comboPricing === ComboPricing &&
+        cartItems[i].nameComboPricing === NameComboPricing
+      ) {
+        cartItems[i].quantity += 1;
+        found = true;
+        break;
+      }
+    }
+
+    if (!found) {
+      const newItem = {
+        detail: Detail,
+        totalPrice: totalPrice,
+        oldPrice: OldPrice,
+        rom: rom,
+        oldComboPricing: OldComboPricing,
+        comboPricing: ComboPricing,
+        nameComboPricing: NameComboPricing,
+        quantity: 1,
+      };
+      cartItems.push(newItem);
+      console.log("Đã thêm sản phẩm mới vào giỏ hàng:", newItem);
+    }
+    console.log("Đã thêm sản phẩm mới vào giỏ hàng:", cartItems);
+
+    localStorage.setItem("cart", JSON.stringify(cartItems));
   };
+
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
