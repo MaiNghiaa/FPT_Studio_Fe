@@ -36,6 +36,8 @@ export default function ProductDetail() {
   const [NameComboPricing, setNameComboPricing] = useState(
     "Bảo hành 1 năm cơ bản"
   );
+  const [totalQuantity, setTotalQuantity] = useState(0);
+
   const [TotalPricing, setTotalPricing] = useState(0);
   const [OldPrice, setOldPrice] = useState(0);
   const [DataImg, setDataImg] = useState(null);
@@ -110,7 +112,12 @@ export default function ProductDetail() {
     calculateTotalPrice();
   }, [ComboPricing, DetailItem]);
   // console.log(DetailItem);
-
+  useEffect(() => {
+    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+    const total = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    setTotalQuantity(total);
+    localStorage.setItem("totalQuantity", total);
+  }, []);
   const handleBuy = (e, totalPrice, rom) => {
     e.preventDefault();
     let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
@@ -142,8 +149,14 @@ export default function ProductDetail() {
         quantity: 1,
       };
       cartItems.push(newItem);
+
       console.log("Đã thêm sản phẩm mới vào giỏ hàng:", newItem);
     }
+    const totalQuantity = cartItems.reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
+    localStorage.setItem("totalQuantity", totalQuantity);
     console.log("Đã thêm sản phẩm mới vào giỏ hàng:", cartItems);
 
     localStorage.setItem("cart", JSON.stringify(cartItems));

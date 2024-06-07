@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Link } from "react-router-dom";
 
@@ -31,10 +31,11 @@ export default function Header() {
             </form>
           </div>
           <div className="header-cart flex-1  inline-flex items-center text-[#e1e4e6] py-[10px] pl-[24px] ">
-            <div className="w-[30px] h-[30]px block ">
+            <div className="relative w-[30px] h-[30px] block">
               <img
                 src={`http://localhost:3000/assets/Icon/shopping-cart.png`}
-                alt=""
+                alt="Shopping Cart"
+                className="w-full h-full"
               />
             </div>
             <p className="text-[14px] leading-5 ml-2 small:invisible small:hidden">
