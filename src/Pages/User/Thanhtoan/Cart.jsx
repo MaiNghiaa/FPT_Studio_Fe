@@ -65,7 +65,6 @@ const Cart = () => {
     validateName();
     validateEmail();
     validatePhone();
-
     if (isNameValid && isEmailValid && isPhoneValid) {
       const orderData = {
         customer_name: name,
@@ -74,14 +73,20 @@ const Cart = () => {
         total_price: totalinCart,
         totalQuantity: localStorage.getItem("totalQuantity"),
         products: cartItems.map((item) => ({
+          ComboPricing: item.comboPricing,
+          oldComboPricing: item.oldComboPricing,
+          nameComboPricing: item.nameComboPricing,
+          URL: item.ImgURL,
           rom: item.rom,
           ColorPick: item.ColorPick,
           product_name: item.detail,
           quantity: item.quantity,
+          old_price_per_item: item.oldPrice,
           price_per_item: item.totalPrice,
           TotalinProduct: item.totalPrice * item.quantity + item.comboPricing,
         })),
       };
+      const jsonString = JSON.stringify(orderData);
 
       try {
         const jsonString = JSON.stringify(orderData);
@@ -94,14 +99,9 @@ const Cart = () => {
           },
           body: jsonString,
         });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
+        const data = response.json();
         console.log(data);
-        toast.success("Đặt hàng thành công!");
+        toast.success("đặt hàng thành công!");
 
         // Xóa localStorage cũ
         localStorage.removeItem("cart");
@@ -338,16 +338,16 @@ const Cart = () => {
                 </div>
               </div>
             </div>
+            <div className="mt-4">
+              <button
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                onClick={handleCheckout}
+              >
+                Hoàn tất đặt hàng
+              </button>
+            </div>
           </div>
         )}
-        <div className="mt-4">
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-            onClick={handleCheckout}
-          >
-            Hoàn tất đặt hàng
-          </button>
-        </div>
       </div>
     </div>
   );
