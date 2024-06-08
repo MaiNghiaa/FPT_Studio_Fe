@@ -168,7 +168,7 @@ export default function ProductDetail() {
 
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
-  // console.log(DetailItem);
+  console.log(DetailItem);
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
