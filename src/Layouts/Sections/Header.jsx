@@ -23,8 +23,8 @@ export default function Header() {
               />
             </a>
           </div>
-          <div className="header-search flex-1 bg-[rgba(255,255,255,.15)] mx-[125.953px]">
-            <form action>
+          <div className="header-search flex-1 bg-[rgba(255,255,255,.15)] mx-[125.953px] invisible">
+            <form action className="">
               <div className="flex  border-none px-[16px] min-h-[28px] text-[#939ca3] w-[476px]">
                 <span></span>
                 <input
@@ -85,7 +85,11 @@ export default function Header() {
               </Link>
             </li>
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
-              <Link to="/tin-tuc" className="flex justify-center items-center">
+              <Link
+                //  to="/tin-tuc"
+                to="https://fstudiobyfpt.com.vn/tin-tuc"
+                className="flex justify-center items-center"
+              >
                 Tin tức
               </Link>
             </li>
@@ -94,14 +98,14 @@ export default function Header() {
                 Workshop
               </Link>
             </li>
-            <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px] text-[#f6c743] font-medium">
+            {/* <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px] text-[#f6c743] font-medium">
               <Link
                 to="/khuyen-mai"
                 className="flex justify-center items-center"
               >
                 Khuyến mãi
               </Link>
-            </li>
+            </li> */}
             <li className="flex justify-center items-center py-[19px] px-0 text-[#939ca3] text-[14px] leading-[14px] font-[400] min-w-[122px]">
               <Link to="/fcare" className="flex justify-center items-center">
                 F.Care
@@ -112,14 +116,14 @@ export default function Header() {
           <button className="phone-hotline ml-[52px] border-1 small:invisible small:hidden">
             <a
               href="tel:+84123456789"
-              className="text-[#fff] bg-[#0664f9] outline-none px-[12px] h-[28px] flex items-center justify-center"
+              className="text-[#fff] bg-[#0664f9] outline-none px-[12px] h-[28px]  flex items-center justify-center w-full"
             >
               <img
-                className="small:w-[16px] small:h-[16px] small:text-[16px]  mx-[2px]"
+                className="small:w-[16px] small:h-[16px] small:text-[16px]  mx-[2px] w-[16px] h-4"
                 src={`http://localhost:3000/assets/Icon/icons8-phone.png`}
                 alt=""
               />
-              <span className="whitespace-nowrap small:inline-block hidden">
+              <span className="whitespace-nowrap small:inline-block text-[12px]">
                 Gọi 1800 6601
               </span>
             </a>

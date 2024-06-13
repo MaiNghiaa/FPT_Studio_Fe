@@ -10,9 +10,10 @@ import "swiper/css/pagination";
 import "swiper/css/free-mode";
 
 import "swiper/css/thumbs";
-
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "swiper/css/scrollbar";
-import { formatCash } from "../../../Utils/utils";
+import { formatCash, getQuantity } from "../../../Utils/utils";
 
 import "./ProductDetail.css";
 
@@ -43,7 +44,12 @@ export default function ProductDetail() {
   const [OldPrice, setOldPrice] = useState(0);
   const [DataImg, setDataImg] = useState(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
+  const [formData, setFormData] = useState({
+    Name: "",
+    Phone: "",
+    Email: "",
+  });
+  const [submitted, setSubmitted] = useState(false);
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -71,23 +77,53 @@ export default function ProductDetail() {
     fetchData();
   }, []);
 
+  const handleSubmitFormInfo = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:3000/NotiItems", formData)
+      .then((response) => {
+        toast.success("Form Data Submitted Successfully!");
+        console.log("Form Data Submitted", response.data);
+        setFormData({
+          Name: "",
+          Phone: "",
+          Email: "",
+        });
+      })
+      .catch((error) => {
+        toast.error("There was an error submitting the form!", error);
+        console.error("There was an error submitting the form!", error);
+      });
+  };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
   const handleColorClick = (colorName) => {
     setColorPick(colorName);
 
     const updatedDetailItem = {
       ...DetailItem,
       ColorDefault: colorName,
+      Quantity: getQuantity(DetailItem.RomMin, colorName, DetailItem), // Cập nhật quantity
     };
 
     setDetailItem(updatedDetailItem);
   };
+
   const handleRomClick = (RomName) => {
     const updatedDetailItem = {
       ...DetailItem,
       RomMin: RomName,
+      Quantity: getQuantity(RomName, DetailItem.ColorDefault, DetailItem), // Cập nhật quantity
     };
+
     setDetailItem(updatedDetailItem);
   };
+
   const handleItemClick = (value, oldvalue, name) => {
     setComboPricing(value);
     setOldComboPricing(oldvalue);
@@ -168,11 +204,13 @@ export default function ProductDetail() {
 
     localStorage.setItem("cart", JSON.stringify(cartItems));
   };
-  console.log(DetailItem);
+  // console.log(DetailItem);
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
         <div className="contai halfsm:px-[10px] w-full max-w-[1200px] px-[12px] mx-auto ">
+          <ToastContainer />
+
           <ol className="breadcrumb py-[6px] px-0 flex list-none mb-[8px]">
             <li className="breadcrumb-item h-5 text-[#444b52] text-[14px] leading-5">
               <a href="/" className="text-[#0664f9] relative inline-block">
@@ -306,7 +344,6 @@ export default function ProductDetail() {
                       DetailItem.DataPricing.map((item, index) => (
                         <a
                           href="# "
-                          DataCardwzc
                           key={index}
                           className={` flex-[1] inline-flex flex-col items-center py-[6px] px-0 transition-[all_.3s_ease] text-[#444b52] item ${
                             item.Rom === DetailItem.RomMin
@@ -402,13 +439,15 @@ export default function ProductDetail() {
                     <p>Loading...</p>
                   )}
                 </div>
-                {DetailItem && DetailItem.category === "iphone" ? (
+                {/* Neu ma quantity !== 0  */}
+                {DetailItem &&
+                DetailItem.category === "iphone" &&
+                DetailItem.Quantity !== 0 ? (
                   <div>
                     <div className="warranty mb-4">
                       <div className="title text-[16px] leading-6 font-medium text-[#32373d] mb-1">
                         Chọn gói bảo hành
                       </div>
-
                       <div className="list flex flex-wrap gap-3">
                         <div
                           onClick={() =>
@@ -516,35 +555,114 @@ export default function ProductDetail() {
                       </div>
                     </div>
                     <div className="combo-accessory mb-4 rounded-md border-[1px] border-solid border-[##edeeef] bg-[#f8f9fa] overflow-hidden"></div>
+                    <button
+                      className="btn btn-link w-full text-[20px] leading-5 mb-2"
+                      onClick={handleBuy}
+                    >
+                      Mua ngay
+                    </button>
                   </div>
                 ) : (
-                  " "
-                )}
-
-                <div className="renderboxbtnNew block1">
-                  <div className="action flex mb-4 mt-5 justify-center gap-4">
-                    <button
-                      onClick={(e) =>
-                        handleBuy(
-                          e,
-                          TotalPricing,
-                          DetailItem.RomMin,
-                          DetailItem.CaptionImg[0].image_caption_URL
-                        )
-                      }
-                      className="btn inline-flex items-center justify-center flex-col transition-[all_.3s_cubic-bezier(0,0,.4,1)] px-8 border-[1px] border-transparent flex-[1] max-w-[576px] h-[56px] text-[#ffffff] bg-[#0664f9] text-[20px] leading-[20px] rounded-md hover:bg-[#044dd6] hover:border-[#044dd6]"
-                    >
-                      <div>MUA NGAY</div>
-                    </button>
-
-                    <Link
-                      to="/Cart"
-                      className="flex items-center justify-center flex-col transition-[all_.3s_cubic-bezier(0,0,.4,1)] px-8 border-[1px] flex-[1] max-w-[576px] h-[56px] text-[#6a737a] bg-[#fff] text-[20px] leading-[20px] rounded-md border-[#cbd1d6] hover:bg-[#939ca3] hover:border-[#939ca3] hover:text-[#fff]"
-                    >
-                      <div>TRẢ GÓP</div>
-                    </Link>
+                  <div className="mb-4">
+                    <div className="out-of-stock form-group">
+                      <div className="form-head">
+                        <div className="form-title">HÀNG SẮP VỀ</div>
+                        <div className="form-subtitle">
+                          Đăng ký nhận thông báo mới nhất về{" "}
+                          {DetailItem && DetailItem.DetailCate ? (
+                            <strong>
+                              {DetailItem.DetailCate}{" "}
+                              {DetailItem.ColorDefault == null
+                                ? " "
+                                : DetailItem.ColorDefault + " "}
+                              {DetailItem.RomMin == null
+                                ? " "
+                                : DetailItem.RomMin + " "}
+                            </strong>
+                          ) : (
+                            " "
+                          )}
+                        </div>
+                      </div>
+                      <div className="form-body">
+                        <form id="receiveEmail" onSubmit={handleSubmitFormInfo}>
+                          <div className="form-content">
+                            <div className="info flex w-full justify-between mb-2">
+                              <div className="info-item">
+                                <input
+                                  type="text"
+                                  placeholder="Nhập họ và tên"
+                                  id="Name"
+                                  name="Name"
+                                  value={formData.Name}
+                                  onChange={handleChange}
+                                />
+                                <div
+                                  className="error errname"
+                                  style={{ display: "none" }}
+                                >
+                                  <div className="text errorname">
+                                    Thông tin bắt buộc
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="info-item">
+                                <input
+                                  type="text"
+                                  id="Phone"
+                                  name="Phone"
+                                  placeholder="Nhập số điện thoại"
+                                  value={formData.Phone}
+                                  onChange={handleChange}
+                                  data-showerr=".errphone"
+                                  data-placeerror=".errorphone"
+                                />
+                                <div
+                                  className="error errphone"
+                                  style={{ display: "none" }}
+                                >
+                                  <div className="text errorphone">
+                                    Thông tin bắt buộc
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="email">
+                              <div className="info-item">
+                                <input
+                                  type="text"
+                                  placeholder="Nhập email (không bắt buộc)"
+                                  id="Email"
+                                  name="Email"
+                                  value={formData.Email}
+                                  onChange={handleChange}
+                                  data-showerr=".errmail"
+                                  data-placeerror=".erroremail"
+                                />
+                                <div
+                                  className="error  errmail"
+                                  style={{ display: "none" }}
+                                >
+                                  <div className="text erroremail">
+                                    Thông tin bắt buộc
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="form-submit text-center mt-6">
+                            <button
+                              className="btn btn-link btn-signup"
+                              type="submit"
+                            >
+                              ĐĂNG KÝ
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                )}
                 <div className="f-s-ui-14 text-center text-[14px] leading-[14px]">
                   Gọi
                   <a

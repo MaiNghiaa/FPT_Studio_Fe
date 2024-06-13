@@ -21,10 +21,17 @@ export default function ListItem() {
   // const [uniqueColors, setuniqueColors] = useState(null);
 
   const [Linkto, setLinkto] = React.useState(null);
+
   function Find(event) {
     console.log(event.target.value);
   }
 
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  });
   const handleChange = (event) => {
     const value = event.target.value;
     if (value === "LtH") {

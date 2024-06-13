@@ -43,7 +43,7 @@ export default function Cate() {
         </Link>
       </div>
       <div className="Cate__item pt-[24px] pb-[32px] bg-[#32373d] shadow-[0_0_16px_rgba(0,0,0,.7)] rounded-[6px]">
-        <Link to="/Apple Watch" className="flex flex-col items-center">
+        <Link to="/Apple_Watch" className="flex flex-col items-center">
           <p className="Cate__item-title text-[20px] leading-7 font-medium mb-[16px]">
             Apple Watch
           </p>
@@ -55,7 +55,7 @@ export default function Cate() {
         </Link>
       </div>
       <div className="Cate__item pt-[24px] pb-[32px] bg-[#32373d] shadow-[0_0_16px_rgba(0,0,0,.7)] rounded-[6px]">
-        <Link to="/Phu Kien" className="flex flex-col items-center">
+        <Link to="/phu-kien" className="flex flex-col items-center">
           <p className="Cate__item-title text-[20px] leading-7 font-medium mb-[16px]">
             Phụ kiện
           </p>

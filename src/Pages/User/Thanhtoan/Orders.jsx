@@ -42,7 +42,20 @@ const Orders = () => {
 
   console.log(dataState);
   if (!orderData) {
-    return <div>La la l</div>;
+    return (
+      <div className="container py-5 px-[7] mx-auto sm:container md:container">
+        <ol className="breadcrumb py-[6px] px-0 list-none mb-[8px] flex flex-col gap-8 justify-start items-start">
+          <li className="breadcrumb-item h-5 text-[#0664f9] text-[14px] leading-5 ">
+            <Link to="/">
+              <button>{"<"} Tiếp tục mua sắm </button>
+            </Link>
+          </li>
+          <li>
+            <h1 className="text-xl font-semibold mb-4">Không có hóa đơn nào</h1>
+          </li>
+        </ol>
+      </div>
+    );
   }
   console.log(orderData.customer_name);
 

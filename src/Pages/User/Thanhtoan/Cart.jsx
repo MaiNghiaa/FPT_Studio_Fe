@@ -6,7 +6,7 @@ import "./Cart.css";
 import { toast, ToastContainer } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -142,7 +142,9 @@ const Cart = () => {
       <div className="container py-5 px-[7] mx-auto sm:container md:container">
         <ol className="breadcrumb py-[6px] px-0 list-none mb-[8px] flex flex-col gap-8 justify-start items-start">
           <li className="breadcrumb-item h-5 text-[#0664f9] text-[14px] leading-5 ">
-            <button>{"<"} Tiếp tục mua sắm </button>
+            <Link to="/">
+              <button>{"<"} Tiếp tục mua sắm </button>
+            </Link>
           </li>
           <li>
             <h1 className="text-xl font-semibold mb-4">

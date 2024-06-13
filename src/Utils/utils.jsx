@@ -10,3 +10,20 @@ export function formatCash(input) {
     return (index % 3 ? next : next + ".") + prev;
   }, "");
 }
+
+export const getQuantity = (RomMin, ColorDefault, DetailItem) => {
+  if (DetailItem && DetailItem.DataPricing) {
+    const romDetail = DetailItem.DataPricing.find(
+      (item) => item.Rom === RomMin
+    );
+    if (romDetail && romDetail.DetailCR) {
+      const colorDetail = romDetail.DetailCR.find(
+        (detail) => detail.Color_name === ColorDefault
+      );
+      if (colorDetail) {
+        return colorDetail.Quantity;
+      }
+    }
+  }
+  return 0; // Trường hợp không tìm thấy, trả về 0
+};
