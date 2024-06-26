@@ -135,6 +135,7 @@ const Cart = () => {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setIsEmailValid(emailPattern.test(email));
   };
+  console.log(cartItems);
   return (
     <div className=" bg-[#e5e7eb] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
       <ToastContainer />
@@ -212,7 +213,7 @@ const Cart = () => {
 
                         <div className="flex flex-col items-end gap-[4px]">
                           <p className="text-blue-600 text-xl font-semibold">
-                            {formatCash(item.totalPrice.toString())}đ
+                            {formatCash(item.totalPrice)}đ
                           </p>
                           {item.oldPrice && (
                             <strike className="text-base font-normal text-right">

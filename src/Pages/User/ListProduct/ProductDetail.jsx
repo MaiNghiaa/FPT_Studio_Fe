@@ -159,6 +159,7 @@ export default function ProductDetail() {
   const handleBuy = (e, totalPrice, rom, ImgURL) => {
     e.preventDefault();
     console.log(ColorPick);
+    console.log(ImgURL);
     let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     let found = false;
     // const imgURL = document.getElementById("#imgURL").value;
@@ -203,8 +204,8 @@ export default function ProductDetail() {
     console.log("Đã thêm sản phẩm mới vào giỏ hàng:", cartItems);
 
     localStorage.setItem("cart", JSON.stringify(cartItems));
+    console.log(cartItems);
   };
-  // console.log(DetailItem);
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
