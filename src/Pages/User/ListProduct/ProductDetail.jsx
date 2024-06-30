@@ -66,6 +66,7 @@ export default function ProductDetail() {
         ]);
 
         setDetailItem(DetailItemResponse.data);
+        setDataImg(DetailItemResponse.data.CaptionImg[0].image_caption_URL);
         setHeadingData(moreDetails.data.headingData);
         setDescriptionData(moreDetails.data.descriptionData);
         setColorPick(ColorDefault);
@@ -76,7 +77,7 @@ export default function ProductDetail() {
 
     fetchData();
   }, []);
-
+  // console.log(DataImg);
   const handleSubmitFormInfo = (e) => {
     e.preventDefault();
     axios
@@ -156,10 +157,14 @@ export default function ProductDetail() {
     setTotalQuantity(total);
     localStorage.setItem("totalQuantity", total);
   }, []);
-  const handleBuy = (e, totalPrice, rom, ImgURL) => {
+  const handleBuy = (e, rom) => {
     e.preventDefault();
-    console.log(ColorPick);
-    console.log(ImgURL);
+    if (!DataImg) {
+      console.error("DataImg is not loaded yet");
+      return;
+    }
+    // console.log(ColorPick);
+    // console.log(DataImg);
     let cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     let found = false;
     // const imgURL = document.getElementById("#imgURL").value;
@@ -170,7 +175,6 @@ export default function ProductDetail() {
         cartItems[i].rom === rom &&
         cartItems[i].comboPricing === ComboPricing &&
         cartItems[i].nameComboPricing === NameComboPricing &&
-        cartItems[i].ImgURL === ImgURL &&
         cartItems[i].ColorPick === ColorPick
       ) {
         cartItems[i].quantity += 1;
@@ -182,10 +186,10 @@ export default function ProductDetail() {
     if (!found) {
       const newItem = {
         detail: Detail,
-        totalPrice: totalPrice,
+        totalPrice: TotalPricing,
         oldPrice: OldPrice,
         rom: rom,
-        ImgURL: ImgURL,
+        ImgURL: DataImg,
         ColorPick: ColorPick,
         oldComboPricing: OldComboPricing,
         comboPricing: ComboPricing,
@@ -206,6 +210,7 @@ export default function ProductDetail() {
     localStorage.setItem("cart", JSON.stringify(cartItems));
     console.log(cartItems);
   };
+
   return (
     <div>
       <div className=" bg-[#ffffff] pb-12 shadow-[0_1px_4px_rgba(10,10,10,.15)]">
@@ -309,93 +314,89 @@ export default function ProductDetail() {
                 )}
 
                 <div className="npi-border border-[#0664f9] px-3 pt-3 pb-6 border-solid rounded-[0px_0px_6px_6px]">
-                  {DetailItem && DetailItem.DataPricing ? (
-                    DetailItem.DataPricing.map((item, index) => {
-                      const matchedDetail = item.DetailCR.find(
-                        (detail) =>
-                          detail.Color_name === DetailItem.ColorDefault
-                      );
-
-                      if (matchedDetail && item.Rom === DetailItem.RomMin) {
-                        return (
-                          <div
-                            key={index}
-                            className="price min-h-[40px] mb-4 flex justify-between items-center"
-                          >
-                            <div className="box-price flex items-center">
-                              <span className="text-[32px] leading-[40px] font-medium text-[#cb1c22]">
-                                {formatCash(TotalPricing.toString())}đ
-                              </span>
-                              <strike className="text-promo text-[#939ca3] text-[24px] leading-8 pl-2 font-normal">
-                                {formatCash(OldPrice.toString())}đ
-                              </strike>
-                            </div>
-                          </div>
+                  {DetailItem && DetailItem.DataPricing
+                    ? DetailItem.DataPricing.map((item, index) => {
+                        const matchedDetail = item.DetailCR.find(
+                          (detail) =>
+                            detail.Color_name === DetailItem.ColorDefault
                         );
-                      } else {
-                        return null;
-                      }
-                    })
-                  ) : (
-                    <p>Loading...</p>
-                  )}
+
+                        if (matchedDetail && item.Rom === DetailItem.RomMin) {
+                          return (
+                            <div
+                              key={index}
+                              className="price min-h-[40px] mb-4 flex justify-between items-center"
+                            >
+                              <div className="box-price flex items-center">
+                                <span className="text-[32px] leading-[40px] font-medium text-[#cb1c22]">
+                                  {formatCash(TotalPricing.toString())}đ
+                                </span>
+                                <strike className="text-promo text-[#939ca3] text-[24px] leading-8 pl-2 font-normal">
+                                  {formatCash(OldPrice.toString())}đ
+                                </strike>
+                              </div>
+                            </div>
+                          );
+                        } else {
+                          return null;
+                        }
+                      })
+                    : ""}
 
                   <div className="mb-4 flex rounded-md overflow-hidden">
-                    {DetailItem && DetailItem.DataPricing ? (
-                      DetailItem.DataPricing.map((item, index) => (
-                        <a
-                          href="# "
-                          key={index}
-                          className={` flex-[1] inline-flex flex-col items-center py-[6px] px-0 transition-[all_.3s_ease] text-[#444b52] item ${
-                            item.Rom === DetailItem.RomMin
-                              ? "active bg-[#edeeef]"
-                              : "bg-[#f8f9fa]"
-                          }`}
-                          onClick={() => handleRomClick(item.Rom)}
-                        >
-                          <div className="radio flex items-center pointer-events-none m-0 font-medium">
-                            <input
-                              id={`group-${index}`}
-                              type="radio"
-                              defaultValue={0}
-                              name={`group-${index}`}
-                              selected
-                              className="m-[0_4px_0_0] rounded-none outline-none"
-                            />
-                            <label
-                              htmlFor={`group-${index}`}
-                              className="font-normal text-[14px] leading-[20px]"
-                            >
-                              {item.Rom}
-                            </label>
-                          </div>
-                          {DetailItem && DetailItem.DataPricing
-                            ? DetailItem.DataPricing.map((item, index) => {
-                                const matchedDetail = item.DetailCR.find(
-                                  (detail) =>
-                                    detail.Color_name ===
-                                    DetailItem.ColorDefault
-                                );
-
-                                if (
-                                  matchedDetail &&
-                                  item.Rom === DetailItem.RomMin
-                                ) {
-                                  return (
-                                    <p className="text-[14px] leading-5 font-normal mb-0 text-[#444b52]">
-                                      {formatCash(TotalPricing.toString())}đ
-                                    </p>
+                    {DetailItem && DetailItem.DataPricing
+                      ? DetailItem.DataPricing.map((item, index) => (
+                          <a
+                            href="# "
+                            key={index}
+                            className={` flex-[1] inline-flex flex-col items-center py-[6px] px-0 transition-[all_.3s_ease] text-[#444b52] item ${
+                              item.Rom === DetailItem.RomMin
+                                ? "active bg-[#edeeef]"
+                                : "bg-[#f8f9fa]"
+                            }`}
+                            onClick={() => handleRomClick(item.Rom)}
+                          >
+                            <div className="radio flex items-center pointer-events-none m-0 font-medium">
+                              <input
+                                id={`group-${index}`}
+                                type="radio"
+                                defaultValue={0}
+                                name={`group-${index}`}
+                                selected
+                                className="m-[0_4px_0_0] rounded-none outline-none"
+                              />
+                              <label
+                                htmlFor={`group-${index}`}
+                                className="font-normal text-[14px] leading-[20px]"
+                              >
+                                {item.Rom}
+                              </label>
+                            </div>
+                            {DetailItem && DetailItem.DataPricing
+                              ? DetailItem.DataPricing.map((item, index) => {
+                                  const matchedDetail = item.DetailCR.find(
+                                    (detail) =>
+                                      detail.Color_name ===
+                                      DetailItem.ColorDefault
                                   );
-                                } else {
-                                  return null;
-                                }
-                              })
-                            : ""}
-                        </a>
-                      ))
-                    ) : (
-                      <p>load</p>
-                    )}
+
+                                  if (
+                                    matchedDetail &&
+                                    item.Rom === DetailItem.RomMin
+                                  ) {
+                                    return (
+                                      <p className="text-[14px] leading-5 font-normal mb-0 text-[#444b52]">
+                                        {formatCash(TotalPricing.toString())}đ
+                                      </p>
+                                    );
+                                  } else {
+                                    return null;
+                                  }
+                                })
+                              : ""}
+                          </a>
+                        ))
+                      : ""}
                   </div>
                 </div>
                 <div className="colors mb-5">
@@ -586,7 +587,11 @@ export default function ProductDetail() {
                         </div>
                       </div>
                       <div className="form-body">
-                        <form id="receiveEmail" onSubmit={handleSubmitFormInfo}>
+                        <form
+                          id="receiveEmail"
+                          onSubmit={handleSubmitFormInfo}
+                          // action="true"
+                        >
                           <div className="form-content">
                             <div className="info flex w-full justify-between mb-2">
                               <div className="info-item">
@@ -680,6 +685,7 @@ export default function ProductDetail() {
           </div>
         </div>
       </div>
+      {/* Cac phu kien khac */}
       <div className="detail_body">
         <div className="product-related mt-12">
           <div className=" halfsm:px-[10px] w-full max-w-[1200px] px-[12px] mx-auto ">

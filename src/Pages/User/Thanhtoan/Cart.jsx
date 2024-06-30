@@ -26,6 +26,7 @@ const Cart = () => {
     setCartItems(items);
     calculateTotalInCart(items);
   }, []);
+  console.log(cartItems);
   const handleQuantityChange = (index, newQuantity) => {
     const updatedCartItems = [...cartItems];
 
@@ -213,7 +214,7 @@ const Cart = () => {
 
                         <div className="flex flex-col items-end gap-[4px]">
                           <p className="text-blue-600 text-xl font-semibold">
-                            {formatCash(item.totalPrice)}đ
+                            {formatCash(item.totalPrice.toString())}đ
                           </p>
                           {item.oldPrice && (
                             <strike className="text-base font-normal text-right">
